@@ -26,6 +26,7 @@ import GeekBrians.Slava_5655380.UI.Activities.NoteEditorActivity;
 
 public class NotesMetadataDisplayFragment extends Fragment {
     private boolean isLandscape;
+    private Note selectedNote;
     private NotesDAO notes = new NotesDAO();
 
     private void showNoteDisplay(){
@@ -43,7 +44,7 @@ public class NotesMetadataDisplayFragment extends Fragment {
     }
 
     private void showLandNoteDisplay(){
-        NoteContentDisplayFragment noteDisplay = NoteContentDisplayFragment.newInstance();
+        NoteContentDisplayFragment noteDisplay = NoteContentDisplayFragment.newInstance(selectedNote);
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.note_display, noteDisplay);  // замена фрагмента
@@ -53,20 +54,22 @@ public class NotesMetadataDisplayFragment extends Fragment {
 
     private void  initBrowserList(View view){
         LinearLayout layoutView = (LinearLayout) view.findViewById(R.id.note_browser_root);
-        List<Note.MetaData> notesMetaData = notes.getMetaData();
+        List<Note> notes = this.notes.get();
 
-        for(Note.MetaData noteMeta : notesMetaData){
-            View notePreview = getLayoutInflater().inflate(R.layout.note_preview, layoutView, false);
-            ((TextView)notePreview.findViewById(R.id.note_title)).setText(noteMeta.name);
-            ((TextView)notePreview.findViewById(R.id.note_creation_date)).setText(new SimpleDateFormat("dd.MM.yyyy").format(noteMeta.creationDate));
-            ((TextView)notePreview.findViewById(R.id.note_modification_date)).setText(new SimpleDateFormat("dd.MM.yyyy").format(noteMeta.modificationDate));
-            ((TextView)notePreview.findViewById(R.id.note_tags)).setText(Arrays.toString(noteMeta.tags));
-            ((TextView)notePreview.findViewById(R.id.note_description)).setText(noteMeta.description);
+        for(Note note : notes){
+            final Note CURRENT_NOTE = note;
+            View notePreview = getLayoutInflater().inflate(R.layout.note_metadata, layoutView, false);
+            ((TextView)notePreview.findViewById(R.id.note_title)).setText(note.getMetadata().name);
+            ((TextView)notePreview.findViewById(R.id.note_creation_date)).setText(new SimpleDateFormat("dd.MM.yyyy").format(note.getMetadata().creationDate));
+            ((TextView)notePreview.findViewById(R.id.note_modification_date)).setText(new SimpleDateFormat("dd.MM.yyyy").format(note.getMetadata().modificationDate));
+            ((TextView)notePreview.findViewById(R.id.note_tags)).setText(Arrays.toString(note.getMetadata().tags));
+            ((TextView)notePreview.findViewById(R.id.note_description)).setText(note.getMetadata().description);
             layoutView.addView(notePreview);
 
             notePreview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    selectedNote = CURRENT_NOTE;
                     showNoteDisplay();
                 }
             });
@@ -78,15 +81,27 @@ public class NotesMetadataDisplayFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
+        if (savedInstanceState != null) {
+            selectedNote = savedInstanceState.getParcelable(NoteContentDisplayFragment.ARG_NOTE);
+        } else {
+            selectedNote = new Note();
+        }
+
         if (isLandscape) {
             showLandNoteDisplay();
         }
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable(NoteContentDisplayFragment.ARG_NOTE, selectedNote);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_notes_browser, container, false);
+        return inflater.inflate(R.layout.fragment_notes_metadata_browser, container, false);
     }
 
     @Override
