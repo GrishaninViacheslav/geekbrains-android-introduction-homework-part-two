@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp">
+    <View
+        android:id="@+id/upper_horizontal_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginVertical="5dp"/>
+
+    <TextView
+        android:id="@+id/note_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:text="Title placeholder"
+        app:layout_constraintTop_toBottomOf="@id/upper_horizontal_line" />
+
+    <TextView
+        android:id="@+id/note_creation_date"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="24.03.2021"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/note_modification_date"
+        app:layout_constraintTop_toBottomOf="@id/note_title" />
+
+    <TextView
+        android:id="@+id/note_modification_date"
+        android:textSize="12sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10sp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="25.03.2021"
+        app:layout_constraintLeft_toRightOf="@id/note_creation_date"
+        app:layout_constraintTop_toBottomOf="@id/note_title" />
+
+    <TextView
+        android:id="@+id/note_tags"
+        android:layout_width="match_parent"
+        android:fontFamily="serif"
+        android:textSize="16sp"
+        android:layout_height="wrap_content"
+        android:text="#lorem, #ipsum, #dolor, #sit, #amet"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textStyle="bold|italic"
+        app:layout_constraintTop_toBottomOf="@id/note_creation_date" />
+
+    <TextView
+        android:id="@+id/note_description"
+        android:layout_width="match_parent"
+        android:textSize="18sp"
+        android:layout_height="wrap_content"
+        android:text="Note description placeholder"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/note_tags" />
+</androidx.constraintlayout.widget.ConstraintLayout>
