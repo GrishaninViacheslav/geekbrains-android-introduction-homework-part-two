@@ -8,8 +8,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Geekbrainsandroidintroductionhomeworkparttwo">
-        <activity android:name=".MainActivity">
+        android:theme="@style/Theme.Geekbrainsandroidintroductionhomeworkparttwo.NoActionBar">
+        <activity android:name=".UI.Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
