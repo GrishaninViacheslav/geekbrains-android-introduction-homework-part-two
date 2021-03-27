@@ -14,7 +14,7 @@ import GeekBrians.Slava_5655380.R;
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.note_browser_toolbar);
         setSupportActionBar(toolbar);
         return toolbar;
     }
