@@ -6,18 +6,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.List;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import GeekBrians.Slava_5655380.Note.Note;
 import GeekBrians.Slava_5655380.Note.NotesDAO;
@@ -52,28 +48,22 @@ public class NotesMetadataDisplayFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    private void  initBrowserList(View view){
-        LinearLayout layoutView = (LinearLayout) view.findViewById(R.id.note_browser_root);
-        List<Note> notes = this.notes.get();
+    private void initBrowserRecycleView(RecyclerView recyclerView){
+        recyclerView.setHasFixedSize(true);
 
-        for(Note note : notes){
-            final Note CURRENT_NOTE = note;
-            View notePreview = getLayoutInflater().inflate(R.layout.note_metadata, layoutView, false);
-            ((TextView)notePreview.findViewById(R.id.note_title)).setText(note.getMetadata().name);
-            ((TextView)notePreview.findViewById(R.id.note_creation_date)).setText(new SimpleDateFormat("dd.MM.yyyy").format(note.getMetadata().creationDate));
-            ((TextView)notePreview.findViewById(R.id.note_modification_date)).setText(new SimpleDateFormat("dd.MM.yyyy").format(note.getMetadata().modificationDate));
-            ((TextView)notePreview.findViewById(R.id.note_tags)).setText(Arrays.toString(note.getMetadata().tags));
-            ((TextView)notePreview.findViewById(R.id.note_description)).setText(note.getMetadata().description);
-            layoutView.addView(notePreview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
 
-            notePreview.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    selectedNote = CURRENT_NOTE;
-                    showNoteDisplay();
-                }
-            });
-        }
+        GeekBrians.Slava_5655380.UI.NotesMetadataBrowserRecyclerView.Adapter adapter = new GeekBrians.Slava_5655380.UI.NotesMetadataBrowserRecyclerView.Adapter(notes.get());
+        recyclerView.setAdapter(adapter);
+
+        adapter.SetOnItemClickListener(new GeekBrians.Slava_5655380.UI.NotesMetadataBrowserRecyclerView.Adapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                selectedNote = notes.get().get(position);
+                showNoteDisplay();
+            }
+        });
     }
 
     @Override
@@ -101,7 +91,10 @@ public class NotesMetadataDisplayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_notes_metadata_browser, container, false);
+        View view = inflater.inflate(R.layout.fragment_notes_metadata_browser, container, false);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view_lines);
+        initBrowserRecycleView(recyclerView);
+        return view;
     }
 
     @Override
@@ -109,6 +102,5 @@ public class NotesMetadataDisplayFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         isLandscape = getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
-        initBrowserList(view);
     }
 }
