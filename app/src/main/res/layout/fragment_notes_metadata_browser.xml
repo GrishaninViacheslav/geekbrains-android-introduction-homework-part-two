@@ -8,5 +8,5 @@
         android:id="@+id/recycler_view_lines"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/note_metadata"/>
+        tools:listitem="@layout/item_note_metadata"/>
 </FrameLayout>

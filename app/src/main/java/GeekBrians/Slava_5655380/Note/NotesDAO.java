@@ -3,12 +3,12 @@ package GeekBrians.Slava_5655380.Note;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
-public class NotesDAO {
-    public ArrayList<Note> get(){
-        ArrayList<Note> notes = new ArrayList<>();
+public class NotesDAO implements NotesSource {
+    private ArrayList<Note> notes;
+
+    public NotesDAO() {
+        notes = new ArrayList<>();
         try {
             notes.add(
                     new Note(
@@ -65,6 +65,15 @@ public class NotesDAO {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return notes;
+    }
+
+    @Override
+    public Note getNoteData(int position) {
+        return notes.get(position);
+    }
+
+    @Override
+    public int size() {
+        return notes.size();
     }
 }
