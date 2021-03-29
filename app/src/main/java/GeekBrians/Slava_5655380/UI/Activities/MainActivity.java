@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         initDrawer(toolbar);
     }
 
-    // регистрация drawer
     private void initDrawer(Toolbar toolbar) {
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -43,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        // Обработка навигационного меню
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
