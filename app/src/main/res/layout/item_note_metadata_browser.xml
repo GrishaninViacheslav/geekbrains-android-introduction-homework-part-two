@@ -41,12 +41,13 @@
 
         <TextView
             android:id="@+id/note_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
             android:text="Title placeholder"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -74,7 +75,7 @@
 
         <TextView
             android:id="@+id/note_tags"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="serif"
             android:text="#lorem, #ipsum, #dolor, #sit, #amet"
@@ -85,7 +86,7 @@
 
         <TextView
             android:id="@+id/note_description"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Note description placeholder"
             android:textSize="18sp"
