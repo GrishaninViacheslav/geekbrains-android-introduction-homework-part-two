@@ -4,14 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        layout="@layout/item_note_metadata"
+    <ScrollView
+        android:id="@+id/note_content_scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/note_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Текст заметки"/>
+        <TextView
+            android:id="@+id/note_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Текст заметки" />
+    </ScrollView>
 </LinearLayout>

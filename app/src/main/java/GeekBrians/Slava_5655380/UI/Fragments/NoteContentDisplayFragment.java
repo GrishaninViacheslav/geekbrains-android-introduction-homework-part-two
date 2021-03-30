@@ -57,6 +57,6 @@ public class NoteContentDisplayFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fillTitle(view);
+        ((TextView)view.findViewById(R.id.note_content)).setText(note.getContent());
     }
 }

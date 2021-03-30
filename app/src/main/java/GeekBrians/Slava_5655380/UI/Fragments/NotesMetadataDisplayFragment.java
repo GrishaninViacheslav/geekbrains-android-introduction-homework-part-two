@@ -19,12 +19,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import GeekBrians.Slava_5655380.Note.Note;
 import GeekBrians.Slava_5655380.Note.NotesDAO;
 import GeekBrians.Slava_5655380.R;
+import GeekBrians.Slava_5655380.UI.Activities.NoteContentDisplayActivity;
 import GeekBrians.Slava_5655380.UI.Activities.NoteEditorActivity;
 
 public class NotesMetadataDisplayFragment extends Fragment {
     private boolean isLandscape;
     private Note selectedNote;
     private NotesDAO notes = new NotesDAO();
+
+    private void showNoteEditor(){
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), NoteEditorActivity.class);
+        startActivity(intent);
+    }
 
     private void showNoteDisplay(){
         if (isLandscape) {
@@ -36,7 +43,7 @@ public class NotesMetadataDisplayFragment extends Fragment {
 
     private void showPortNoteDisplay(){
         Intent intent = new Intent();
-        intent.setClass(getActivity(), NoteEditorActivity.class);
+        intent.setClass(getActivity(), NoteContentDisplayActivity.class);
         startActivity(intent);
     }
 
@@ -62,11 +69,19 @@ public class NotesMetadataDisplayFragment extends Fragment {
         itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
         recyclerView.addItemDecoration(itemDecoration);
 
-        adapter.SetOnItemClickListener(new GeekBrians.Slava_5655380.UI.NotesMetadataBrowserRecyclerView.Adapter.OnItemClickListener() {
+        adapter.setOnMetadataPlaceholderClickListenerClickListener(new GeekBrians.Slava_5655380.UI.NotesMetadataBrowserRecyclerView.Adapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 selectedNote = notes.getNoteData(position);
                 showNoteDisplay();
+            }
+        });
+
+        adapter.setOnEditButtonClickListener(new GeekBrians.Slava_5655380.UI.NotesMetadataBrowserRecyclerView.Adapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                selectedNote = notes.getNoteData(position);
+                showNoteEditor();
             }
         });
     }
