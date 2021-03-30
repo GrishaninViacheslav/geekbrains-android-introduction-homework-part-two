@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,6 +57,10 @@ public class NotesMetadataDisplayFragment extends Fragment {
 
         GeekBrians.Slava_5655380.UI.NotesMetadataBrowserRecyclerView.Adapter adapter = new GeekBrians.Slava_5655380.UI.NotesMetadataBrowserRecyclerView.Adapter(notes);
         recyclerView.setAdapter(adapter);
+
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(),  LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
+        recyclerView.addItemDecoration(itemDecoration);
 
         adapter.SetOnItemClickListener(new GeekBrians.Slava_5655380.UI.NotesMetadataBrowserRecyclerView.Adapter.OnItemClickListener() {
             @Override
