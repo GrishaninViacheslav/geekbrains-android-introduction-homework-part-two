@@ -47,7 +47,7 @@ public class NotesMetadataDisplayFragment extends NoteFragment {
         Intent intent = new Intent();
         intent.setClass(getActivity(), NoteContentDisplayActivity.class);
         intent.putExtra(ARG_SELECTED_NOTE, selectedNote);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_CONTENT_DISPLAY_ACTIVITY);
     }
 
     private void showLandNoteDisplay() {
@@ -93,6 +93,7 @@ public class NotesMetadataDisplayFragment extends NoteFragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
+            case REQUEST_CODE_CONTENT_DISPLAY_ACTIVITY:
             case REQUEST_CODE_EDITOR_ACTIVITY:
                 requireActivity().recreate();
                 break;

@@ -5,4 +5,5 @@ import androidx.fragment.app.Fragment;
 public abstract class NoteFragment extends Fragment {
     public static final String ARG_SELECTED_NOTE = "SELECTED_NOTE";
     public static final int REQUEST_CODE_EDITOR_ACTIVITY = 1;
+    public static final int REQUEST_CODE_CONTENT_DISPLAY_ACTIVITY = 2;
 }
