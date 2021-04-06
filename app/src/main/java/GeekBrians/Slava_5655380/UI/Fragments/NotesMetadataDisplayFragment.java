@@ -96,11 +96,7 @@ public class NotesMetadataDisplayFragment extends NoteFragment {
         switch (requestCode) {
             case REQUEST_CODE_EDITOR_ACTIVITY:
                 Log.d("[PING X]", "recreate fragment");
-                getFragmentManager()
-                        .beginTransaction()
-                        .detach(this)
-                        .attach(this)
-                        .commit();
+                requireActivity().recreate();
                 break;
         }
     }

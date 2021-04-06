@@ -2,9 +2,11 @@ package GeekBrians.Slava_5655380.UI.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
@@ -29,9 +31,20 @@ public class NoteContentDisplayActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(NoteContentDisplayActivity.this, NoteEditorActivity.class);
                 intent.putExtra(NoteFragment.ARG_SELECTED_NOTE, note);
-                startActivity(intent);
+                startActivityForResult(intent, NoteFragment.REQUEST_CODE_EDITOR_ACTIVITY);
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case NoteFragment.REQUEST_CODE_EDITOR_ACTIVITY:
+                Log.d("[PING X]", "recreate activityffe");
+                // TODO: обновить после закрытия editor
+                break;
+        }
     }
 
     private void setContent() {
