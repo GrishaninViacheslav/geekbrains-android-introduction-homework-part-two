@@ -1,7 +1,5 @@
 package GeekBrians.Slava_5655380.Note;
 
-import android.util.Log;
-
 import com.google.gson.GsonBuilder;
 
 import java.io.FileNotFoundException;
@@ -9,7 +7,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import GeekBrians.Slava_5655380.Note.FileManagement.AndroidAppSpecificFilesManager;
 import GeekBrians.Slava_5655380.Note.FileManagement.FileManager;
 
 public class NotesDAO implements NotesSource {
@@ -82,7 +79,6 @@ public class NotesDAO implements NotesSource {
         builder = new GsonBuilder();
         notes = new ArrayList<>();
         if (fileManager.fileList().length > 0) {
-            Log.d("[PING X]", "local load");
             for (String fileName : fileManager.fileList()) {
                 try {
                     notes.add(builder.create().fromJson(fileManager.readFromFile(fileName), Note.class));
@@ -118,7 +114,6 @@ public class NotesDAO implements NotesSource {
 
     public void commit() {
         for (Note note : notes) {
-            Log.d("[PING X]", builder.create().toJson(note));
             fileManager.saveIntoFile(builder.create().toJson(note), note.getMetadata().name);
         }
     }

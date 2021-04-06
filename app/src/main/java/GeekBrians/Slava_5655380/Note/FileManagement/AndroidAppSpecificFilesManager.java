@@ -1,7 +1,6 @@
 package GeekBrians.Slava_5655380.Note.FileManagement;
 
 import android.content.Context;
-import android.os.Parcelable;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

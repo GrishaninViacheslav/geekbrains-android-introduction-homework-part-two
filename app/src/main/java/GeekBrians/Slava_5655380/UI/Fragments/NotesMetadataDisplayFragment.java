@@ -3,7 +3,6 @@ package GeekBrians.Slava_5655380.UI.Fragments;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +94,6 @@ public class NotesMetadataDisplayFragment extends NoteFragment {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_CODE_EDITOR_ACTIVITY:
-                Log.d("[PING X]", "recreate fragment");
                 requireActivity().recreate();
                 break;
         }
@@ -104,8 +102,6 @@ public class NotesMetadataDisplayFragment extends NoteFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d("[PING X]", "onActivityCreated first");
-
         isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
 
         if (savedInstanceState != null) {
@@ -128,7 +124,6 @@ public class NotesMetadataDisplayFragment extends NoteFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("[PING X]", "onCreateView second");
         notes = new NotesDAO(new AndroidAppSpecificFilesManager(requireActivity()));
         View view = inflater.inflate(R.layout.fragment_notes_metadata_browser, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_lines);

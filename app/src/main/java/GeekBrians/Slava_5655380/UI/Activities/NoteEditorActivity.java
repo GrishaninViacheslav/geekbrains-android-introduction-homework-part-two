@@ -1,5 +1,6 @@
 package GeekBrians.Slava_5655380.UI.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -73,6 +74,10 @@ public class NoteEditorActivity extends AppCompatActivity {
                 return true;
             case R.id.action_save:
                 editorPresenter.actionSave();
+
+                Intent intentResult = new Intent();
+                intentResult.putExtra(NoteFragment.ARG_SELECTED_NOTE, editorPresenter.getNote());
+                setResult(NoteFragment.REQUEST_CODE_EDITOR_ACTIVITY, intentResult);
                 return true;
         }
         return super.onOptionsItemSelected(item);

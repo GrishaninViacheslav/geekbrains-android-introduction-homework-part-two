@@ -2,7 +2,6 @@ package GeekBrians.Slava_5655380.UI.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -41,8 +40,8 @@ public class NoteContentDisplayActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case NoteFragment.REQUEST_CODE_EDITOR_ACTIVITY:
-                Log.d("[PING X]", "recreate activityffe");
-                // TODO: обновить после закрытия editor
+                note = data.getExtras().getParcelable(NoteFragment.ARG_SELECTED_NOTE);
+                setContent();
                 break;
         }
     }
