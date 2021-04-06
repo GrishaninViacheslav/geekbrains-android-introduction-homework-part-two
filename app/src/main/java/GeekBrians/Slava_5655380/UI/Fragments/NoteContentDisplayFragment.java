@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,7 @@ import java.util.Arrays;
 import GeekBrians.Slava_5655380.Note.Note;
 import GeekBrians.Slava_5655380.R;
 
-public class NoteContentDisplayFragment extends Fragment {
+public class NoteContentDisplayFragment extends NoteFragment {
     private Note note;
 
     private void fillTitle(View view){
@@ -33,18 +32,16 @@ public class NoteContentDisplayFragment extends Fragment {
     public static NoteContentDisplayFragment newInstance(Note note) {
         NoteContentDisplayFragment fragment = new NoteContentDisplayFragment();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_NOTE, note);
+        args.putParcelable(ARG_SELECTED_NOTE, note);
         fragment.setArguments(args);
         return fragment;
     }
-
-    public static final String ARG_NOTE = "NOTE";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            note = (Note)getArguments().getParcelable(ARG_NOTE);
+            note = (Note)getArguments().getParcelable(ARG_SELECTED_NOTE);
         }
     }
 

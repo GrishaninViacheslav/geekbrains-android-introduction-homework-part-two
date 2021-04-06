@@ -1,4 +1,4 @@
-package GeekBrians.Slava_5655380.UI.NotesMetadataBrowserRecyclerView;
+package GeekBrians.Slava_5655380.UI.Fragments.NotesMetadataBrowserRecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;

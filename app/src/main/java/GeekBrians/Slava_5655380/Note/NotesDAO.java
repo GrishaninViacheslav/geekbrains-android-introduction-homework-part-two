@@ -1,14 +1,23 @@
 package GeekBrians.Slava_5655380.Note;
 
+import android.util.Log;
+
+import com.google.gson.GsonBuilder;
+
+import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import GeekBrians.Slava_5655380.Note.FileManagement.AndroidAppSpecificFilesManager;
+import GeekBrians.Slava_5655380.Note.FileManagement.FileManager;
+
 public class NotesDAO implements NotesSource {
     private ArrayList<Note> notes;
+    private FileManager fileManager;
+    private GsonBuilder builder;
 
-    public NotesDAO() {
-        notes = new ArrayList<>();
+    private void addTestNotes() {
         try {
             notes.add(
                     new Note(
@@ -28,7 +37,7 @@ public class NotesDAO implements NotesSource {
                             "Содержимое третьей заметки"));
             notes.add(
                     new Note(
-                            new Note.MetaData("Четвёртая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum",  "#amet"}, "Описание четвёртой заметки"),
+                            new Note.MetaData("Четвёртая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum", "#amet"}, "Описание четвёртой заметки"),
                             "Содержимое четвёертой заметки"));
             notes.add(
                     new Note(
@@ -67,6 +76,26 @@ public class NotesDAO implements NotesSource {
         }
     }
 
+    public NotesDAO(FileManager fileManager) {
+        this.fileManager = fileManager;
+
+        builder = new GsonBuilder();
+        notes = new ArrayList<>();
+        if (fileManager.fileList().length > 0) {
+            Log.d("[PING X]", "local load");
+            for (String fileName : fileManager.fileList()) {
+                try {
+                    notes.add(builder.create().fromJson(fileManager.readFromFile(fileName), Note.class));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            addTestNotes();
+        }
+
+    }
+
     @Override
     public Note getNoteData(int position) {
         return notes.get(position);
@@ -75,5 +104,22 @@ public class NotesDAO implements NotesSource {
     @Override
     public int size() {
         return notes.size();
+    }
+
+    public void addNote(Note note) {
+        for(int i = 0; i < notes.size(); i++){
+            if(notes.get(i).getMetadata().name.equals(note.getMetadata().name)){
+                notes.set(i, note);
+                return;
+            }
+        }
+        notes.add(note);
+    }
+
+    public void commit() {
+        for (Note note : notes) {
+            Log.d("[PING X]", builder.create().toJson(note));
+            fileManager.saveIntoFile(builder.create().toJson(note), note.getMetadata().name);
+        }
     }
 }
