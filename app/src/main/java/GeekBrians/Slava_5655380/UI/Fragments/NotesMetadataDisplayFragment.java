@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import GeekBrians.Slava_5655380.Note.FileManagement.AndroidAppSpecificFilesManager;
 import GeekBrians.Slava_5655380.Note.Note;
-import GeekBrians.Slava_5655380.Note.NotesDAO;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesAsJSONFiles;
 import GeekBrians.Slava_5655380.R;
 import GeekBrians.Slava_5655380.UI.Activities.NoteContentDisplayActivity;
 import GeekBrians.Slava_5655380.UI.Activities.NoteEditorActivity;
@@ -26,7 +26,7 @@ import GeekBrians.Slava_5655380.UI.Fragments.NotesMetadataBrowserRecyclerView.Ad
 public class NotesMetadataDisplayFragment extends NoteFragment {
     private boolean isLandscape;
     private Note selectedNote;
-    private NotesDAO notes;
+    private NotesAsJSONFiles notes;
 
     private void showNoteEditor() {
         Intent intent = new Intent();
@@ -125,7 +125,7 @@ public class NotesMetadataDisplayFragment extends NoteFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        notes = new NotesDAO(new AndroidAppSpecificFilesManager(requireActivity()));
+        notes = new NotesAsJSONFiles(new AndroidAppSpecificFilesManager(requireActivity()));
         View view = inflater.inflate(R.layout.fragment_notes_metadata_browser, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_lines);
         initBrowserRecycleView(recyclerView);

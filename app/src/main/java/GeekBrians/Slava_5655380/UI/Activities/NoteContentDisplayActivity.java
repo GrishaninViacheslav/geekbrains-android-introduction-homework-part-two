@@ -40,8 +40,10 @@ public class NoteContentDisplayActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case NoteFragment.REQUEST_CODE_EDITOR_ACTIVITY:
-                note = data.getExtras().getParcelable(NoteFragment.ARG_SELECTED_NOTE);
-                setContent();
+                if(resultCode == NoteFragment.RESULT_CODE_CONTENT_EDITED){
+                    note = data.getExtras().getParcelable(NoteFragment.ARG_SELECTED_NOTE);
+                    setContent();
+                }
                 break;
         }
     }

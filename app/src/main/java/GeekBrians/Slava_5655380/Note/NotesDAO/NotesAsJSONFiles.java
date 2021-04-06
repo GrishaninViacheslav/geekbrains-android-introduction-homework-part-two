@@ -1,4 +1,4 @@
-package GeekBrians.Slava_5655380.Note;
+package GeekBrians.Slava_5655380.Note.NotesDAO;
 
 import com.google.gson.GsonBuilder;
 
@@ -8,8 +8,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import GeekBrians.Slava_5655380.Note.FileManagement.FileManager;
+import GeekBrians.Slava_5655380.Note.Note;
+import GeekBrians.Slava_5655380.Note.NotesSource;
 
-public class NotesDAO implements NotesSource {
+public class NotesAsJSONFiles implements NotesSource {
     private ArrayList<Note> notes;
     private FileManager fileManager;
     private GsonBuilder builder;
@@ -73,7 +75,7 @@ public class NotesDAO implements NotesSource {
         }
     }
 
-    public NotesDAO(FileManager fileManager) {
+    public NotesAsJSONFiles(FileManager fileManager) {
         this.fileManager = fileManager;
 
         builder = new GsonBuilder();
@@ -105,6 +107,7 @@ public class NotesDAO implements NotesSource {
     public void addNote(Note note) {
         for(int i = 0; i < notes.size(); i++){
             if(notes.get(i).getMetadata().name.equals(note.getMetadata().name)){
+                // TODO: определить изменённые поля, для изменённых полей добавить запрос(выполняймый в .commit) на изменение значения этого поля в SQLite базе
                 notes.set(i, note);
                 return;
             }
