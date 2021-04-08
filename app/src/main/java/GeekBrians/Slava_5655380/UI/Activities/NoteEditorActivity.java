@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -23,6 +25,7 @@ import GeekBrians.Slava_5655380.Note.Note;
 import GeekBrians.Slava_5655380.Note.NoteEditorPresenter;
 import GeekBrians.Slava_5655380.Note.NotesDAO.NotesReadableAsJSONFiles;
 import GeekBrians.Slava_5655380.R;
+import GeekBrians.Slava_5655380.UI.Fragments.DialogFragment.DialogBuilderFragment;
 import GeekBrians.Slava_5655380.UI.Fragments.NoteFragment;
 
 public class NoteEditorActivity extends AppCompatActivity {
@@ -34,6 +37,13 @@ public class NoteEditorActivity extends AppCompatActivity {
 
         ((TextView)findViewById(R.id.note_title)).setText(note.getMetadata().name);
         ((TextView)findViewById(R.id.note_creation_date)).setText(new SimpleDateFormat("dd-MM-yyyy").format(note.getMetadata().creationDate));
+        ((TextView)findViewById(R.id.note_creation_date)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editorPresenter.creationDateEditEvent(getSupportFragmentManager());
+            }
+        });
+
         ((TextView)findViewById(R.id.note_modification_date)).setText(new SimpleDateFormat("dd-MM-yyyy").format(note.getMetadata().modificationDate));
         ((TextView)findViewById(R.id.note_tags)).setText(Arrays.toString(note.getMetadata().tags));
         ((TextView)findViewById(R.id.note_description)).setText(note.getMetadata().description);

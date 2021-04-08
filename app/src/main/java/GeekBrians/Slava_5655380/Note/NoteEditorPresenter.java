@@ -5,7 +5,10 @@ import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.widget.Toast;
 
+import androidx.fragment.app.DialogFragment;
+
 import GeekBrians.Slava_5655380.Note.NotesDAO.NotesReadableAsJSONFiles;
+import GeekBrians.Slava_5655380.UI.Fragments.DialogFragment.DialogBuilderFragment;
 
 public class NoteEditorPresenter {
 
@@ -38,5 +41,10 @@ public class NoteEditorPresenter {
 
     public void afterTextChangedEvent(){
         note.setContent(inputConnection.getExtractedText(new ExtractedTextRequest(), 0).text.toString());
+    }
+
+    public void creationDateEditEvent(androidx.fragment.app.FragmentManager fragmentManager){
+        DialogFragment dlgBuilder = new DialogBuilderFragment();
+        dlgBuilder.show(fragmentManager, "transactionTag");
     }
 }
