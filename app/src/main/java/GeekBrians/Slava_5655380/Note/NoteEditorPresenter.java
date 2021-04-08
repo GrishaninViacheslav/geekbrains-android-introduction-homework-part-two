@@ -5,17 +5,17 @@ import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.widget.Toast;
 
-import GeekBrians.Slava_5655380.Note.NotesDAO.NotesAsJSONFiles;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesReadableAsJSONFiles;
 
 public class NoteEditorPresenter {
 
     private Context context;
     private Note note;
-    private NotesAsJSONFiles notesAsJSONFiles;
+    private NotesReadableAsJSONFiles notesAsJSONFiles;
     private InputConnection inputConnection;
 
 
-    public NoteEditorPresenter(Context context, Note note, NotesAsJSONFiles notesAsJSONFiles, InputConnection inputConnection) {
+    public NoteEditorPresenter(Context context, Note note, NotesReadableAsJSONFiles notesAsJSONFiles, InputConnection inputConnection) {
         this.context = context;
         this.note = note;
         this.notesAsJSONFiles = notesAsJSONFiles;
