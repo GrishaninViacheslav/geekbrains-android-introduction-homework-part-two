@@ -15,6 +15,8 @@ public class NotesReadableAsJSONFiles implements NotesReadableSource, NotesWrite
     private FileManager fileManager;
     private GsonBuilder builder;
 
+
+    // TODO: данный метод нужен только для отладки и будет удалён после того как этот класс будет реализованн
     private void addTestNotes() {
         try {
             notes.add(

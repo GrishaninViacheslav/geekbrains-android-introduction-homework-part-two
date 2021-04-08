@@ -28,16 +28,17 @@ public class NoteCreationTimePicker extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         final View contentView = requireActivity().getLayoutInflater().inflate(R.layout.item_time_picker, null);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity())
-                .setTitle("Дата создания")
+                .setTitle(getResources().getString(R.string.creation_time_picker_title))
                 .setView(contentView)
-                .setNeutralButton("отмена", new DialogInterface.OnClickListener() {
+                .setNeutralButton(getResources().getString(R.string.time_picker_neutral_button_string), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dismiss();
                     }
                 })
-                .setPositiveButton("изменить", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getResources().getString(R.string.time_picker_positive_button_string), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dismiss();

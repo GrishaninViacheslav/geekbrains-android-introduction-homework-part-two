@@ -2,4 +2,7 @@
     <string name="app_name">geekbrains-android-introduction-homework-part-two</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="creation_time_picker_title">Дата создания</string>
+    <string name="time_picker_neutral_button_string">отмена</string>
+    <string name="time_picker_positive_button_string">изменить</string>
 </resources>
