@@ -11,19 +11,19 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import GeekBrians.Slava_5655380.Note.Note;
 import GeekBrians.Slava_5655380.R;
+import GeekBrians.Slava_5655380.SimpleDateFormats;
 
 public class NoteContentDisplayFragment extends NoteFragment {
     private Note note;
 
     private void fillTitle(View view){
         ((TextView)view.findViewById(R.id.note_title)).setText(note.getMetadata().name);
-        ((TextView)view.findViewById(R.id.note_creation_date)).setText(new SimpleDateFormat("yyyy.MM.dd").format(note.getMetadata().creationDate));
-        ((TextView)view.findViewById(R.id.note_modification_date)).setText(new SimpleDateFormat("yyyy.MM.dd").format(note.getMetadata().modificationDate));
+        ((TextView)view.findViewById(R.id.note_creation_date)).setText(SimpleDateFormats.DISPLAYED_VALUE_FORMAT.format(note.getMetadata().creationDate));
+        ((TextView)view.findViewById(R.id.note_modification_date)).setText(SimpleDateFormats.DISPLAYED_VALUE_FORMAT.format(note.getMetadata().modificationDate));
         ((TextView)view.findViewById(R.id.note_tags)).setText(Arrays.toString(note.getMetadata().tags));
         ((TextView)view.findViewById(R.id.note_description)).setText(note.getMetadata().description);
         ((TextView)view.findViewById(R.id.note_content)).setText(note.getContent());

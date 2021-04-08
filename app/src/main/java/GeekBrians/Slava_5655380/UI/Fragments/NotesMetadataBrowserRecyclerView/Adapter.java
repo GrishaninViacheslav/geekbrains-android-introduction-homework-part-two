@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import GeekBrians.Slava_5655380.Note.Note;
 import GeekBrians.Slava_5655380.Note.NotesDAO.NotesReadableSource;
 import GeekBrians.Slava_5655380.R;
+import GeekBrians.Slava_5655380.SimpleDateFormats;
 
 public class Adapter
         extends RecyclerView.Adapter<Adapter.ViewHolder> {
@@ -98,8 +98,8 @@ public class Adapter
 
         public void setData(Note note) {
             title.setText(note.getMetadata().name);
-            creationData.setText(new SimpleDateFormat("dd.MM.yyyy").format(note.getMetadata().creationDate));
-            modificationDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(note.getMetadata().modificationDate));
+            creationData.setText(SimpleDateFormats.DISPLAYED_VALUE_FORMAT.format(note.getMetadata().creationDate));
+            modificationDate.setText(SimpleDateFormats.DISPLAYED_VALUE_FORMAT.format(note.getMetadata().modificationDate));
             notesTags.setText(Arrays.toString(note.getMetadata().tags));
             noteDescription.setText(note.getMetadata().description);
         }

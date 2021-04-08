@@ -4,8 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import GeekBrians.Slava_5655380.SimpleDateFormats;
 
 public class Note implements Parcelable {
     private MetaData metadata;
@@ -68,8 +69,8 @@ public class Note implements Parcelable {
         protected MetaData(Parcel in) {
             name = in.readString();
             try {
-                creationDate = new SimpleDateFormat("dd-MM-yyyy").parse(in.readString());
-                modificationDate = new SimpleDateFormat("dd-MM-yyyy").parse(in.readString());
+                creationDate = SimpleDateFormats.DISPLAYED_VALUE_FORMAT.parse(in.readString());
+                modificationDate = SimpleDateFormats.DISPLAYED_VALUE_FORMAT.parse(in.readString());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -97,8 +98,8 @@ public class Note implements Parcelable {
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeString(name);
-            dest.writeString(new SimpleDateFormat("dd-MM-yyyy").format(creationDate));
-            dest.writeString(new SimpleDateFormat("dd-MM-yyyy").format(modificationDate));
+            dest.writeString(SimpleDateFormats.DISPLAYED_VALUE_FORMAT.format(creationDate));
+            dest.writeString(SimpleDateFormats.DISPLAYED_VALUE_FORMAT.format(modificationDate));
             dest.writeStringArray(tags);
             dest.writeString(description);
         }
@@ -130,8 +131,8 @@ public class Note implements Parcelable {
     public Note() {
         try {
             this.metadata = new MetaData(
-                    "Безымянная заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"),
-                    new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#sit", "#amet"},
+                    "Безымянная заметка", SimpleDateFormats.DISPLAYED_VALUE_FORMAT.parse("24-03-2021"),
+                    SimpleDateFormats.DISPLAYED_VALUE_FORMAT.parse("25-03-2021"), new String[]{"#lorem", "#sit", "#amet"},
                     "Это безымянная заметка"
             );
         } catch (ParseException e) {

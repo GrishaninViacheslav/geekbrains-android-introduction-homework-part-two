@@ -16,9 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
-import org.w3c.dom.Text;
-
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -27,6 +24,7 @@ import GeekBrians.Slava_5655380.Note.Note;
 import GeekBrians.Slava_5655380.Note.NoteEditorPresenter;
 import GeekBrians.Slava_5655380.Note.NotesDAO.NotesReadableAsJSONFiles;
 import GeekBrians.Slava_5655380.R;
+import GeekBrians.Slava_5655380.SimpleDateFormats;
 import GeekBrians.Slava_5655380.UI.Fragments.NoteFragment;
 
 public class NoteEditorActivity extends AppCompatActivity {
@@ -44,7 +42,7 @@ public class NoteEditorActivity extends AppCompatActivity {
             // pass
         }
         public void setCreationDate(Date date){
-            creationDateView.setText(new SimpleDateFormat("dd-MM-yyyy").format(date));
+            creationDateView.setText(SimpleDateFormats.DISPLAYED_VALUE_FORMAT.format(date));
         }
         public void setModificationDate(String value){
             // pass
@@ -92,8 +90,8 @@ public class NoteEditorActivity extends AppCompatActivity {
     }
     private void setViews(){
         titleView.setText(note.getMetadata().name);
-        creationDateView.setText(new SimpleDateFormat("dd-MM-yyyy").format(note.getMetadata().creationDate));
-        modificationDateView.setText(new SimpleDateFormat("dd-MM-yyyy").format(note.getMetadata().modificationDate));
+        creationDateView.setText(SimpleDateFormats.DISPLAYED_VALUE_FORMAT.format(note.getMetadata().creationDate));
+        modificationDateView.setText(SimpleDateFormats.DISPLAYED_VALUE_FORMAT.format(note.getMetadata().modificationDate));
         tagsView.setText(Arrays.toString(note.getMetadata().tags));
         descriptionView.setText(note.getMetadata().description);
         editableContentView.setText(note.getContent());

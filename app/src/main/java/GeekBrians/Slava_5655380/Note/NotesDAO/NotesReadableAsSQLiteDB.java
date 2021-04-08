@@ -8,9 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import GeekBrians.Slava_5655380.Note.Note;
+import GeekBrians.Slava_5655380.SimpleDateFormats;
 
 public class NotesReadableAsSQLiteDB extends SQLiteOpenHelper implements NotesReadableSource, NotesWritebleSource {
     private static final String SQL_CREATE_ENTRIES =
@@ -82,7 +82,7 @@ public class NotesReadableAsSQLiteDB extends SQLiteOpenHelper implements NotesRe
         Note note = null;
         try {
             note = new Note(
-                    new Note.MetaData(cursor.getString(cursor.getColumnIndexOrThrow(NoteEntry.COLUMN_NAME_NAME)), new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание шестой заметки"),
+                    new Note.MetaData(cursor.getString(cursor.getColumnIndexOrThrow(NoteEntry.COLUMN_NAME_NAME)), SimpleDateFormats.DISPLAYED_VALUE_FORMAT.parse("24-03-2021"), SimpleDateFormats.DISPLAYED_VALUE_FORMAT.parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание шестой заметки"),
                     cursor.getString(cursor.getColumnIndexOrThrow(NoteEntry.COLUMN_NAME_CONTENT)));
         } catch (ParseException e) {
             e.printStackTrace();

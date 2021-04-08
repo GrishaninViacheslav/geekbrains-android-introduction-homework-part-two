@@ -3,7 +3,6 @@ package GeekBrians.Slava_5655380.UI.Fragments.DialogFragment;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
@@ -14,9 +13,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import GeekBrians.Slava_5655380.R;
+import GeekBrians.Slava_5655380.SimpleDateFormats;
 
 public class NoteCreationTimePicker extends DialogFragment {
     private TimePickerDialogListener timePickerDialogListener;
@@ -45,7 +44,7 @@ public class NoteCreationTimePicker extends DialogFragment {
                         DatePicker datePicker = contentView.findViewById(R.id.datePicker);
                         TimePicker timePicker = contentView.findViewById(R.id.timePicker);
                         try {
-                            timePickerDialogListener.onDateAssign(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(datePicker.getYear() + "-"+ (datePicker.getMonth()+1) + "-" + datePicker.getDayOfMonth() + " " + timePicker.getHour() + ":" + timePicker.getMinute()) );
+                            timePickerDialogListener.onDateAssign(SimpleDateFormats.INNER_VALUE_FORMAT.parse(datePicker.getYear() + "-"+ (datePicker.getMonth()+1) + "-" + datePicker.getDayOfMonth() + " " + timePicker.getHour() + ":" + timePicker.getMinute()) );
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }

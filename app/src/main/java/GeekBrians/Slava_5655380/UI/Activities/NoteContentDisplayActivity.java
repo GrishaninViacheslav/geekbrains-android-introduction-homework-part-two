@@ -7,12 +7,11 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import GeekBrians.Slava_5655380.Note.Note;
 import GeekBrians.Slava_5655380.R;
+import GeekBrians.Slava_5655380.SimpleDateFormats;
 import GeekBrians.Slava_5655380.UI.Fragments.NoteFragment;
 
 public class NoteContentDisplayActivity extends AppCompatActivity {
@@ -50,8 +49,8 @@ public class NoteContentDisplayActivity extends AppCompatActivity {
 
     private void setContent() {
         ((TextView)findViewById(R.id.note_title)).setText(note.getMetadata().name);
-        ((TextView)findViewById(R.id.note_creation_date)).setText(new SimpleDateFormat("dd-MM-yyyy").format(note.getMetadata().creationDate));
-        ((TextView)findViewById(R.id.note_modification_date)).setText(new SimpleDateFormat("dd-MM-yyyy").format(note.getMetadata().modificationDate));
+        ((TextView)findViewById(R.id.note_creation_date)).setText(SimpleDateFormats.DISPLAYED_VALUE_FORMAT.format(note.getMetadata().creationDate));
+        ((TextView)findViewById(R.id.note_modification_date)).setText(SimpleDateFormats.DISPLAYED_VALUE_FORMAT.format(note.getMetadata().modificationDate));
         ((TextView)findViewById(R.id.note_tags)).setText(Arrays.toString(note.getMetadata().tags));
         ((TextView)findViewById(R.id.note_description)).setText(note.getMetadata().description);
         ((TextView)findViewById(R.id.note_content)).setText(note.getContent());
