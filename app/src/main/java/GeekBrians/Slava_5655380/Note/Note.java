@@ -2,17 +2,107 @@ package GeekBrians.Slava_5655380.Note;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import GeekBrians.Slava_5655380.SimpleDateFormats;
 
 public class Note implements Parcelable {
     private MetaData metadata;
     private Content content;
 
+    private static class Content implements Parcelable {
+        private String content;
+
+        public Content(String content) {
+            this.content = content;
+        }
+
+        protected Content(Parcel in) {
+            content = in.readString();
+        }
+
+        public static final Creator<Content> CREATOR = new Creator<Content>() {
+            @Override
+            public Content createFromParcel(Parcel in) {
+                return new Content(in);
+            }
+
+            @Override
+            public Content[] newArray(int size) {
+                return new Content[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(content);
+        }
+    }
+
     protected Note(Parcel in) {
+        metadata = in.readParcelable(MetaData.class.getClassLoader());
+        content = in.readParcelable(Content.class.getClassLoader());
+    }
+
+    public static class MetaData implements Parcelable {
+        public String name;
+        public Date creationDate;
+        public Date modificationDate;
+        public String[] tags;
+        public String description;
+
+        public MetaData(String name, Date creationDate, Date lastModificationDate, String[] tags, String description) {
+            this.name = name;
+            this.creationDate = creationDate;
+            this.modificationDate = lastModificationDate;
+            this.tags = tags;
+            this.description = description;
+        }
+
+        protected MetaData(Parcel in) {
+            name = in.readString();
+            try {
+                creationDate = SimpleDateFormats.DISPLAYED_VALUE_FORMAT.parse(in.readString());
+                modificationDate = SimpleDateFormats.DISPLAYED_VALUE_FORMAT.parse(in.readString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            tags = in.createStringArray();
+            description = in.readString();
+        }
+
+        public static final Creator<MetaData> CREATOR = new Creator<MetaData>() {
+            @Override
+            public MetaData createFromParcel(Parcel in) {
+                return new MetaData(in);
+            }
+
+            @Override
+            public MetaData[] newArray(int size) {
+                return new MetaData[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(name);
+            dest.writeString(SimpleDateFormats.DISPLAYED_VALUE_FORMAT.format(creationDate));
+            dest.writeString(SimpleDateFormats.DISPLAYED_VALUE_FORMAT.format(modificationDate));
+            dest.writeStringArray(tags);
+            dest.writeString(description);
+        }
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {
@@ -34,39 +124,15 @@ public class Note implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-    }
-
-    private static class Content {
-        private String content;
-
-        public Content(String content) {
-            this.content = content;
-        }
-    }
-
-    public static class MetaData {
-        public String name;
-        public Date creationDate;
-        public Date modificationDate;
-        public String[] tags;
-        public String description;
-
-        public MetaData(String name, Date creationDate, Date lastModificationDate, String[] tags, String description) {
-            this.name = name;
-            this.creationDate = creationDate;
-            this.modificationDate = lastModificationDate;
-            this.tags = tags;
-            this.description = description;
-        }
+        dest.writeParcelable(metadata, flags);
+        dest.writeParcelable(content, flags);
     }
 
     public Note() {
-        Log.d("[ping]", "Empty note created");
-
         try {
             this.metadata = new MetaData(
-                    "Безымянная заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"),
-                    new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#sit", "#amet"},
+                    "Безымянная заметка", SimpleDateFormats.DISPLAYED_VALUE_FORMAT.parse("24-03-2021"),
+                    SimpleDateFormats.DISPLAYED_VALUE_FORMAT.parse("25-03-2021"), new String[]{"#lorem", "#sit", "#amet"},
                     "Это безымянная заметка"
             );
         } catch (ParseException e) {
@@ -82,6 +148,10 @@ public class Note implements Parcelable {
 
     public String getContent() {
         return content.content;
+    }
+
+    public void setContent(String value){
+        content.content = value;
     }
 
     public MetaData getMetadata() {

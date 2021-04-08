@@ -1,4 +1,4 @@
-package GeekBrians.Slava_5655380.UI.NotesMetadataBrowserRecyclerView;
+package GeekBrians.Slava_5655380.UI.Fragments.NotesMetadataBrowserRecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,20 +8,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
+import com.google.android.material.button.MaterialButton;
+
 import java.util.Arrays;
 
 import GeekBrians.Slava_5655380.Note.Note;
-import GeekBrians.Slava_5655380.Note.NotesSource;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesReadableSource;
 import GeekBrians.Slava_5655380.R;
+import GeekBrians.Slava_5655380.SimpleDateFormats;
 
 public class Adapter
         extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
-    private NotesSource dataSource;
-    private OnItemClickListener itemClickListener;
+    private NotesReadableSource dataSource;
+    private OnItemClickListener metadataPlaceholderClickListener;
+    private OnItemClickListener editButtonClickListener;
 
-    public Adapter(NotesSource dataSource) {
+    public Adapter(NotesReadableSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -43,8 +46,12 @@ public class Adapter
         return dataSource.size();
     }
 
-    public void SetOnItemClickListener(OnItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
+    public void setOnMetadataPlaceholderClickListenerClickListener(OnItemClickListener metadataPlaceholderClickListenerClickListener) {
+        this.metadataPlaceholderClickListener = metadataPlaceholderClickListenerClickListener;
+    }
+
+    public void setOnEditButtonClickListener(OnItemClickListener editButtonClickListener) {
+        this.editButtonClickListener = editButtonClickListener;
     }
 
     public interface OnItemClickListener {
@@ -57,6 +64,8 @@ public class Adapter
         private TextView modificationDate;
         private TextView notesTags;
         private TextView noteDescription;
+        private View metadataPlaceholder;
+        private MaterialButton editButton;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -66,21 +75,31 @@ public class Adapter
             modificationDate = itemView.findViewById(R.id.note_modification_date);
             notesTags = itemView.findViewById(R.id.note_tags);
             noteDescription = itemView.findViewById(R.id.note_description);
+            metadataPlaceholder = itemView.findViewById(R.id.note_metadata_placeholder);
+            editButton = itemView.findViewById(R.id.button_edit);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            metadataPlaceholder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (itemClickListener != null) {
-                        itemClickListener.onItemClick(v, getAdapterPosition());
+                    if (metadataPlaceholderClickListener != null) {
+                        metadataPlaceholderClickListener.onItemClick(v, getAdapterPosition());
+                    }
+                }
+            });
+            editButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (editButtonClickListener != null) {
+                        editButtonClickListener.onItemClick(v, getAdapterPosition());
                     }
                 }
             });
         }
 
-        public void setData(Note note){
+        public void setData(Note note) {
             title.setText(note.getMetadata().name);
-            creationData.setText(new SimpleDateFormat("dd.MM.yyyy").format(note.getMetadata().creationDate));
-            modificationDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(note.getMetadata().modificationDate));
+            creationData.setText(SimpleDateFormats.DISPLAYED_VALUE_FORMAT.format(note.getMetadata().creationDate));
+            modificationDate.setText(SimpleDateFormats.DISPLAYED_VALUE_FORMAT.format(note.getMetadata().modificationDate));
             notesTags.setText(Arrays.toString(note.getMetadata().tags));
             noteDescription.setText(note.getMetadata().description);
         }
