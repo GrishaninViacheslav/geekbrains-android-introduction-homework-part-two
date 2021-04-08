@@ -15,49 +15,88 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.DialogFragment;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 import GeekBrians.Slava_5655380.Note.NotesDAO.FileManagement.AndroidAppSpecificFilesManager;
 import GeekBrians.Slava_5655380.Note.Note;
 import GeekBrians.Slava_5655380.Note.NoteEditorPresenter;
 import GeekBrians.Slava_5655380.Note.NotesDAO.NotesReadableAsJSONFiles;
 import GeekBrians.Slava_5655380.R;
-import GeekBrians.Slava_5655380.UI.Fragments.DialogFragment.DialogBuilderFragment;
 import GeekBrians.Slava_5655380.UI.Fragments.NoteFragment;
 
 public class NoteEditorActivity extends AppCompatActivity {
-
     private Note note;
     private NoteEditorPresenter editorPresenter;
-    private void initViews(){
-        note = editorPresenter.getNote();
+    private TextView titleView;
+    private TextView creationDateView;
+    private TextView modificationDateView;
+    private TextView tagsView;
+    private TextView descriptionView;
+    private EditText editableContentView;
 
-        ((TextView)findViewById(R.id.note_title)).setText(note.getMetadata().name);
-        ((TextView)findViewById(R.id.note_creation_date)).setText(new SimpleDateFormat("dd-MM-yyyy").format(note.getMetadata().creationDate));
-        ((TextView)findViewById(R.id.note_creation_date)).setOnClickListener(new View.OnClickListener() {
+    public class ViewsSetter{
+        public void setTitle(String value){
+            // pass
+        }
+        public void setCreationDate(Date date){
+            creationDateView.setText(new SimpleDateFormat("dd-MM-yyyy").format(date));
+        }
+        public void setModificationDate(String value){
+            // pass
+        }
+        public void setTags(String value){
+            // pass
+        }
+        public void setDescription(String value){
+            // pass
+        }
+        public void setEditableContent(String value){
+            // pass
+        }
+    }
+
+    private void initViews() {
+        titleView = findViewById(R.id.note_title);
+        creationDateView = findViewById(R.id.note_creation_date);
+        creationDateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editorPresenter.creationDateEditEvent(getSupportFragmentManager());
+                editorPresenter.creationDateEditEvent((TextView) v, getSupportFragmentManager());
+            }
+        });
+        modificationDateView = findViewById(R.id.note_modification_date);
+        tagsView = findViewById(R.id.note_tags);
+        descriptionView = findViewById(R.id.note_description);
+        editableContentView = findViewById(R.id.note_editable_content);
+        editableContentView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                editorPresenter.afterTextChangedEvent();
             }
         });
 
-        ((TextView)findViewById(R.id.note_modification_date)).setText(new SimpleDateFormat("dd-MM-yyyy").format(note.getMetadata().modificationDate));
-        ((TextView)findViewById(R.id.note_tags)).setText(Arrays.toString(note.getMetadata().tags));
-        ((TextView)findViewById(R.id.note_description)).setText(note.getMetadata().description);
-        ((EditText)findViewById(R.id.note_editable_content)).setText(note.getContent());
-        ((EditText)findViewById(R.id.note_editable_content)).addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { }
-
-            @Override
-            public void afterTextChanged(Editable s) { editorPresenter.afterTextChangedEvent(); }
-        });
+        setViews();
+    }
+    private void setViews(){
+        titleView.setText(note.getMetadata().name);
+        creationDateView.setText(new SimpleDateFormat("dd-MM-yyyy").format(note.getMetadata().creationDate));
+        modificationDateView.setText(new SimpleDateFormat("dd-MM-yyyy").format(note.getMetadata().modificationDate));
+        tagsView.setText(Arrays.toString(note.getMetadata().tags));
+        descriptionView.setText(note.getMetadata().description);
+        editableContentView.setText(note.getContent());
     }
 
     private void initToolbar() {
@@ -71,7 +110,8 @@ public class NoteEditorActivity extends AppCompatActivity {
         setResult(NoteFragment.RESULT_CODE_CONTENT_NOT_EDITED);
         setContentView(R.layout.activity_note_editor);
         initToolbar();
-        editorPresenter = new NoteEditorPresenter(this, getIntent().getExtras().getParcelable(NoteFragment.ARG_SELECTED_NOTE), new NotesReadableAsJSONFiles(new AndroidAppSpecificFilesManager(this)),  ((EditText)findViewById(R.id.note_editable_content)).onCreateInputConnection(new EditorInfo()));
+        note = getIntent().getExtras().getParcelable(NoteFragment.ARG_SELECTED_NOTE);
+        editorPresenter = new NoteEditorPresenter(this, note, new NotesReadableAsJSONFiles(new AndroidAppSpecificFilesManager(this)), ((EditText) findViewById(R.id.note_editable_content)).onCreateInputConnection(new EditorInfo()), new ViewsSetter());
         initViews();
     }
 

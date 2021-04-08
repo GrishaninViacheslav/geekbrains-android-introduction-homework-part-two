@@ -32,7 +32,7 @@ public class Adapter
     @Override
     public Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_note_metadata_browser, viewGroup, false);
+                .inflate(R.layout.item_note_metadata, viewGroup, false);
         return new ViewHolder(v);
     }
 
