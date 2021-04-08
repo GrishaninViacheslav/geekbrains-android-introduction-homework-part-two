@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import GeekBrians.Slava_5655380.Note.NotesDAO.FileManagement.FileManager;
 import GeekBrians.Slava_5655380.Note.Note;
 
-public class NotesReadableAsJSONFiles implements NotesReadableSource, NotesWritebleSource {
+public class NotesJSONFilesSource implements NotesReadableSource, NotesWritebleSource {
     private ArrayList<Note> notes;
     private FileManager fileManager;
     private GsonBuilder builder;
@@ -74,7 +74,7 @@ public class NotesReadableAsJSONFiles implements NotesReadableSource, NotesWrite
         }
     }
 
-    public NotesReadableAsJSONFiles(FileManager fileManager) {
+    public NotesJSONFilesSource(FileManager fileManager) {
         this.fileManager = fileManager;
 
         builder = new GsonBuilder();

@@ -21,7 +21,8 @@ import java.util.Arrays;
 import GeekBrians.Slava_5655380.Note.NotesDAO.FileManagement.AndroidAppSpecificFilesManager;
 import GeekBrians.Slava_5655380.Note.Note;
 import GeekBrians.Slava_5655380.Note.NoteEditorPresenter;
-import GeekBrians.Slava_5655380.Note.NotesDAO.NotesReadableAsJSONFiles;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesJSONFilesSource;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesSQLiteDBSource;
 import GeekBrians.Slava_5655380.R;
 import GeekBrians.Slava_5655380.UI.Fragments.NoteFragment;
 
@@ -61,7 +62,8 @@ public class NoteEditorActivity extends AppCompatActivity {
         setResult(NoteFragment.RESULT_CODE_CONTENT_NOT_EDITED);
         setContentView(R.layout.activity_note_editor);
         initToolbar();
-        editorPresenter = new NoteEditorPresenter(this, getIntent().getExtras().getParcelable(NoteFragment.ARG_SELECTED_NOTE), new NotesReadableAsJSONFiles(new AndroidAppSpecificFilesManager(this)),  ((EditText)findViewById(R.id.note_editable_content)).onCreateInputConnection(new EditorInfo()));
+        // TODO: REFACTOR: получать NotesDAO из getIntent().getExtras()
+        editorPresenter = new NoteEditorPresenter(this, getIntent().getExtras().getParcelable(NoteFragment.ARG_SELECTED_NOTE), new NotesSQLiteDBSource(this),  ((EditText)findViewById(R.id.note_editable_content)).onCreateInputConnection(new EditorInfo()));
         initViews();
     }
 
