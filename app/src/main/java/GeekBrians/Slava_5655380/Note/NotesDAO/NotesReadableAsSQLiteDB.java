@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 
 import GeekBrians.Slava_5655380.Note.Note;
 
-public class NotesSQLiteDBSource extends SQLiteOpenHelper implements NotesReadableSource, NotesWritebleSource {
+public class NotesReadableAsSQLiteDB extends SQLiteOpenHelper implements NotesReadableSource, NotesWritebleSource {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + NoteEntry.TABLE_NAME + " (" +
                     NoteEntry._ID + " INTEGER PRIMARY KEY," +
@@ -23,7 +23,7 @@ public class NotesSQLiteDBSource extends SQLiteOpenHelper implements NotesReadab
             "DROP TABLE IF EXISTS " + NoteEntry.TABLE_NAME;
 
     public static class NoteEntry {
-        public static final String _ID = "id";
+        public static final String _ID = "1";
         public static final String TABLE_NAME = "Notes";
         public static final String COLUMN_NAME_NAME = "name";
         public static final String COLUMN_NAME_CONTENT = "content";
@@ -32,7 +32,7 @@ public class NotesSQLiteDBSource extends SQLiteOpenHelper implements NotesReadab
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "NotesSQLite.db";
 
-    public NotesSQLiteDBSource(Context context) {
+    public NotesReadableAsSQLiteDB(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -62,7 +62,7 @@ public class NotesSQLiteDBSource extends SQLiteOpenHelper implements NotesReadab
 
 // Filter results WHERE "title" = 'My Title'
         String selection = NoteEntry._ID + " = ?";
-        String[] selectionArgs = {String.valueOf(position)}; // TODO: ИСПРАВИТЬ ОШИБКУ КАК ПОЛУЧИТЬ НАСТОЯЩИЙ ID ?
+        String[] selectionArgs = {String.valueOf(position)};
 
 // How you want the results sorted in the resulting Cursor
         String sortOrder =
@@ -82,13 +82,7 @@ public class NotesSQLiteDBSource extends SQLiteOpenHelper implements NotesReadab
         Note note = null;
         try {
             note = new Note(
-                    new Note.MetaData(
-
-                            cursor.getString(cursor.getColumnIndexOrThrow(NoteEntry.COLUMN_NAME_NAME)),
-
-
-
-                            new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание шестой заметки"),
+                    new Note.MetaData(cursor.getString(cursor.getColumnIndexOrThrow(NoteEntry.COLUMN_NAME_NAME)), new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание шестой заметки"),
                     cursor.getString(cursor.getColumnIndexOrThrow(NoteEntry.COLUMN_NAME_CONTENT)));
         } catch (ParseException e) {
             e.printStackTrace();
