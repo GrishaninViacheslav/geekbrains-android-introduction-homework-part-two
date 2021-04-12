@@ -27,6 +27,7 @@ import GeekBrians.Slava_5655380.Note.NotesDAO.NotesWritableSource;
 import GeekBrians.Slava_5655380.R;
 
 public class MainActivity extends AppCompatActivity {
+    // DATABASE И DAO ХРАНЯТСЯ В notesReadableSource И notesWritableSource
     private NotesReadableSource notesReadableSource;
     private NotesWritableSource notesWritableSource;
 
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         MainActivity.mainActivityReference = this;
 
+        // МЕТОД Room.databaseBuilder(...).build() ВЫЗЫВАЕТСЯ ЗДЕСЬ В NotesAsRoomDatabase
         notesReadableSource = new NotesAsRoomDatabase(this);
         notesWritableSource = (NotesWritableSource) notesReadableSource;
 
@@ -123,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    // ЧЕРЕЗ ЭТУ ССЫЛКУ ДРУГИЕ АКТИВИТИ, НАПРИМЕР NoteEditorActivity ПОЛУЧАЮТ ДОСТУП К notesWritableSource/notesReadableSource
     public static MainActivity mainActivityReference;
 
     @Override

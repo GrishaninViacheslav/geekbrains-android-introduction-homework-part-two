@@ -61,7 +61,11 @@ public class NoteEditorActivity extends AppCompatActivity {
         setResult(NoteFragment.RESULT_CODE_CONTENT_NOT_EDITED);
         setContentView(R.layout.activity_note_editor);
         initToolbar();
-        editorPresenter = new NoteEditorPresenter(this, getIntent().getExtras().getParcelable(NoteFragment.ARG_SELECTED_NOTE), MainActivity.mainActivityReference.getNotesWritableSource(),  ((EditText)findViewById(R.id.note_editable_content)).onCreateInputConnection(new EditorInfo()));
+        editorPresenter = new NoteEditorPresenter(this, getIntent().getExtras().getParcelable(NoteFragment.ARG_SELECTED_NOTE),
+
+                MainActivity.mainActivityReference.getNotesWritableSource(),  // ЧТОБЫ ПОВТОРНО НЕ СОЗДАВАТЬ RoomDatabase Я ПОЛУЧАЮ СОЗДАННЫЙ РАНЕЕ ЭКЗЕМПЛЯР КОТОРЫЙ ХРАНИТСЯ В MainActivity
+
+                ((EditText)findViewById(R.id.note_editable_content)).onCreateInputConnection(new EditorInfo()));
         initViews();
     }
 
