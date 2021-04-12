@@ -39,19 +39,18 @@ public class NotesAsRoomDatabase implements NotesReadableSource, NotesWritableSo
 
     @Override
     public void commit() {
-        // Не понимаю как обновить row с заметкой
-//        LinkedList<NoteRoomEntity> notesToInsert = new LinkedList<>();
-//        for(NoteRoomEntity noteRoomEntity : notesToCommit){
-//            if(notesDao.findByName(noteRoomEntity.name) != null){
-//
-//                notesDao.update(noteRoomEntity);
-//            }else {
-//                notesToInsert.add(noteRoomEntity);
-//            }
-//        }
-//        notesDao.insertAll(notesToInsert.toArray(new NoteRoomEntity[notesToInsert.size()]));
-//        notesToCommit.clear();
-        notesDao.insertAll(notesToCommit.toArray(new NoteRoomEntity[notesToCommit.size()]));
+        LinkedList<NoteRoomEntity> notesToInsert = new LinkedList<>();
+        for(NoteRoomEntity noteRoomEntity : notesToCommit){
+            NoteRoomEntity originEntity = notesDao.findByName(noteRoomEntity.name);
+            if(originEntity != null){
+                NoteRoomEntity updatedEntity = new NoteRoomEntity(originEntity.nid, noteRoomEntity.name, noteRoomEntity.creationDate, noteRoomEntity.modificationDate, noteRoomEntity.tags, noteRoomEntity.description, noteRoomEntity.content);
+                notesDao.update(updatedEntity);
+            }
+            else{
+                notesToInsert.add(noteRoomEntity);
+            }
+        }
+        notesDao.insertAll(notesToInsert.toArray(new NoteRoomEntity[notesToInsert.size()]));
         notesToCommit.clear();
     }
 }
