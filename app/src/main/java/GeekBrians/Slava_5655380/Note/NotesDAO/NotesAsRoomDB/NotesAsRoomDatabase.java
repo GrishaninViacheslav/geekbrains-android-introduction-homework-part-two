@@ -19,11 +19,12 @@ public class NotesAsRoomDatabase implements NotesReadableSource, NotesWritableSo
         NotesDatabase db = Room.databaseBuilder(context,
                 NotesDatabase.class, "notes").allowMainThreadQueries().build();
         notesDao = db.notesDao();
+        notesToCommit = new LinkedList<>();
     }
 
     @Override
     public Note getNoteData(int position) {
-        return notesDao.loadAllByIds(new int[]{position+1}).get(0).convertToNote();
+        return notesDao.loadAllByIds(new int[]{position + 1}).get(0).convertToNote();
     }
 
     @Override
@@ -38,6 +39,19 @@ public class NotesAsRoomDatabase implements NotesReadableSource, NotesWritableSo
 
     @Override
     public void commit() {
-        notesDao.insertAll((NoteRoomEntity[])notesToCommit.toArray());
+        // Не понимаю как обновить row с заметкой
+//        LinkedList<NoteRoomEntity> notesToInsert = new LinkedList<>();
+//        for(NoteRoomEntity noteRoomEntity : notesToCommit){
+//            if(notesDao.findByName(noteRoomEntity.name) != null){
+//
+//                notesDao.update(noteRoomEntity);
+//            }else {
+//                notesToInsert.add(noteRoomEntity);
+//            }
+//        }
+//        notesDao.insertAll(notesToInsert.toArray(new NoteRoomEntity[notesToInsert.size()]));
+//        notesToCommit.clear();
+        notesDao.insertAll(notesToCommit.toArray(new NoteRoomEntity[notesToCommit.size()]));
+        notesToCommit.clear();
     }
 }

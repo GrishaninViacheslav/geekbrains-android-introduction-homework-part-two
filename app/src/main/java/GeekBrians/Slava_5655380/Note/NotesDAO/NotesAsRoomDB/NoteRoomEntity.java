@@ -12,7 +12,7 @@ import GeekBrians.Slava_5655380.Note.Note;
 
 @Entity
 public class NoteRoomEntity {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int nid;
 
     @ColumnInfo(name = "name")
