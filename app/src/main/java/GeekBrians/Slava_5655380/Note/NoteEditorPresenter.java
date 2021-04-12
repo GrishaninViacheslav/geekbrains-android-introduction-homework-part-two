@@ -4,21 +4,20 @@ import android.content.Context;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.widget.Toast;
-
-import GeekBrians.Slava_5655380.Note.NotesDAO.NotesAsJSONFiles;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesWritableSource;
 
 public class NoteEditorPresenter {
 
     private Context context;
     private Note note;
-    private NotesAsJSONFiles notesAsJSONFiles;
+    private NotesWritableSource notesWritableSource;
     private InputConnection inputConnection;
 
 
-    public NoteEditorPresenter(Context context, Note note, NotesAsJSONFiles notesAsJSONFiles, InputConnection inputConnection) {
+    public NoteEditorPresenter(Context context, Note note, NotesWritableSource notesWritableSource, InputConnection inputConnection) {
         this.context = context;
         this.note = note;
-        this.notesAsJSONFiles = notesAsJSONFiles;
+        this.notesWritableSource = notesWritableSource;
         this.inputConnection = inputConnection;
     }
 
@@ -31,8 +30,8 @@ public class NoteEditorPresenter {
     }
 
     public void actionSave(){
-        notesAsJSONFiles.addNote(note);
-        notesAsJSONFiles.commit();
+        notesWritableSource.addNote(note);
+        notesWritableSource.commit();
         Toast.makeText(context, "Note saved: " + note.getContent(), Toast.LENGTH_SHORT).show();
     }
 

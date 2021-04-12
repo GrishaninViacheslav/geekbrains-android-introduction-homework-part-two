@@ -15,9 +15,23 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import GeekBrians.Slava_5655380.Note.FileManagement.AndroidAppSpecificFilesManager;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesAsJSONFiles;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesReadableSource;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesWritableSource;
 import GeekBrians.Slava_5655380.R;
 
 public class MainActivity extends AppCompatActivity {
+    private NotesReadableSource notesReadableSource;
+    private NotesWritableSource notesWritableSource;
+
+    public NotesReadableSource getNotesReadableSource() {
+        return notesReadableSource;
+    }
+
+    public NotesWritableSource getNotesWritableSource() {
+        return notesWritableSource;
+    }
 
     private Toolbar initToolbar() {
         Toolbar toolbar = findViewById(R.id.note_browser_toolbar);
@@ -28,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        notesReadableSource = new NotesAsJSONFiles(new AndroidAppSpecificFilesManager(this));
+        notesWritableSource = (NotesWritableSource) notesReadableSource;
         setContentView(R.layout.activity_main);
         Toolbar toolbar = initToolbar();
         initDrawer(toolbar);

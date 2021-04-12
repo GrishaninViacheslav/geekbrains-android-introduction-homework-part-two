@@ -15,7 +15,7 @@ import GeekBrians.Slava_5655380.Note.Note;
 import GeekBrians.Slava_5655380.R;
 import GeekBrians.Slava_5655380.UI.Fragments.NoteFragment;
 
-public class NoteContentDisplayActivity extends AppCompatActivity {
+public class NoteContentDisplayActivity extends MainActivity {
     private Note note;
 
     @Override

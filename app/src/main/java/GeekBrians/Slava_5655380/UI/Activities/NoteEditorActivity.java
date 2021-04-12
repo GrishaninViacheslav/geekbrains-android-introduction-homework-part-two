@@ -25,7 +25,7 @@ import GeekBrians.Slava_5655380.Note.NotesDAO.NotesAsJSONFiles;
 import GeekBrians.Slava_5655380.R;
 import GeekBrians.Slava_5655380.UI.Fragments.NoteFragment;
 
-public class NoteEditorActivity extends AppCompatActivity {
+public class NoteEditorActivity extends MainActivity {
 
     private Note note;
     private NoteEditorPresenter editorPresenter;
@@ -61,7 +61,7 @@ public class NoteEditorActivity extends AppCompatActivity {
         setResult(NoteFragment.RESULT_CODE_CONTENT_NOT_EDITED);
         setContentView(R.layout.activity_note_editor);
         initToolbar();
-        editorPresenter = new NoteEditorPresenter(this, getIntent().getExtras().getParcelable(NoteFragment.ARG_SELECTED_NOTE), new NotesAsJSONFiles(new AndroidAppSpecificFilesManager(this)),  ((EditText)findViewById(R.id.note_editable_content)).onCreateInputConnection(new EditorInfo()));
+        editorPresenter = new NoteEditorPresenter(this, getIntent().getExtras().getParcelable(NoteFragment.ARG_SELECTED_NOTE), getNotesWritableSource(),  ((EditText)findViewById(R.id.note_editable_content)).onCreateInputConnection(new EditorInfo()));
         initViews();
     }
 
