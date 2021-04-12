@@ -25,8 +25,6 @@ public class Converters {
         return arr == null ? null : arrayToString(arr, SEPARATOR);
     }
 
-    // TODO: запретить использование символа SEPARATOR в качестве значения
-    // Как можно обойтись без запрета?
     private static final String SEPARATOR = ";";
 
     private static String arrayToString(Object[] arr, String separator){

@@ -8,7 +8,6 @@ import java.util.Date;
 
 import GeekBrians.Slava_5655380.Note.Note;
 
-// TODO: хранить tags и content в своих отдельных связанных таблицах
 
 @Entity
 public class NoteRoomEntity {

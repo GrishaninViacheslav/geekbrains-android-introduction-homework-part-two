@@ -27,9 +27,6 @@ import GeekBrians.Slava_5655380.Note.NotesDAO.NotesWritableSource;
 import GeekBrians.Slava_5655380.R;
 
 public class MainActivity extends AppCompatActivity {
-    // Может ли Android убить экземпляр этой активити в то время как открыты активити наследуемые от MainActivity, которые запрашивают notesReadableSource и notesWritableSource из экземпляра MainActivity?
-    // Если да то как сделать так чтобы  notesReadableSource и notesWritableSource открывались только один раз и были общими для всех компонентов приложения
-    // TODO: если приложение начнёт падать в случайные моменты то проверить этот вопрос
     private NotesReadableSource notesReadableSource;
     private NotesWritableSource notesWritableSource;
 
