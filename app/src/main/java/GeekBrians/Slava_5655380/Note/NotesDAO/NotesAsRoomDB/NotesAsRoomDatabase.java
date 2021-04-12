@@ -16,7 +16,7 @@ public class NotesAsRoomDatabase implements NotesReadableSource, NotesWritableSo
     private LinkedList<NoteRoomEntity> notesToCommit;
 
     public NotesAsRoomDatabase(Context context) {
-        NotesDatabase db = Room.databaseBuilder(context,
+        db = Room.databaseBuilder(context,
                 NotesDatabase.class, "notes").allowMainThreadQueries().build();
         notesDao = db.notesDao();
         notesToCommit = new LinkedList<>();
@@ -39,6 +39,7 @@ public class NotesAsRoomDatabase implements NotesReadableSource, NotesWritableSo
 
     @Override
     public void commit() {
+        // Как по нормальному сделать обновление строки заметки?
         LinkedList<NoteRoomEntity> notesToInsert = new LinkedList<>();
         for(NoteRoomEntity noteRoomEntity : notesToCommit){
             NoteRoomEntity originEntity = notesDao.findByName(noteRoomEntity.name);

@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainActivity.mainActivityReference = this;
+
         notesReadableSource = new NotesAsRoomDatabase(this);
         notesWritableSource = (NotesWritableSource) notesReadableSource;
 
@@ -123,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    public static MainActivity mainActivityReference;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
