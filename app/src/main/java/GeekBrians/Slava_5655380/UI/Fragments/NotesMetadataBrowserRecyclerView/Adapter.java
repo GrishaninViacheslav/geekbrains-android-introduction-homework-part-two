@@ -14,17 +14,17 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import GeekBrians.Slava_5655380.Note.Note;
-import GeekBrians.Slava_5655380.Note.NotesSource;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesReadableSource;
 import GeekBrians.Slava_5655380.R;
 
 public class Adapter
         extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
-    private NotesSource dataSource;
+    private NotesReadableSource dataSource;
     private OnItemClickListener metadataPlaceholderClickListener;
     private OnItemClickListener editButtonClickListener;
 
-    public Adapter(NotesSource dataSource) {
+    public Adapter(NotesReadableSource dataSource) {
         this.dataSource = dataSource;
     }
 

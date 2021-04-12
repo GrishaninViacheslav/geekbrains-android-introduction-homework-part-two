@@ -9,9 +9,8 @@ import java.util.ArrayList;
 
 import GeekBrians.Slava_5655380.Note.FileManagement.FileManager;
 import GeekBrians.Slava_5655380.Note.Note;
-import GeekBrians.Slava_5655380.Note.NotesSource;
 
-public class NotesAsJSONFiles implements NotesSource {
+public class NotesAsJSONFiles implements NotesReadableSource, NotesWritableSource {
     private ArrayList<Note> notes;
     private FileManager fileManager;
     private GsonBuilder builder;
@@ -104,6 +103,7 @@ public class NotesAsJSONFiles implements NotesSource {
         return notes.size();
     }
 
+    @Override
     public void addNote(Note note) {
         for(int i = 0; i < notes.size(); i++){
             if(notes.get(i).getMetadata().name.equals(note.getMetadata().name)){
@@ -115,6 +115,7 @@ public class NotesAsJSONFiles implements NotesSource {
         notes.add(note);
     }
 
+    @Override
     public void commit() {
         for (Note note : notes) {
             fileManager.saveIntoFile(builder.create().toJson(note), note.getMetadata().name);
