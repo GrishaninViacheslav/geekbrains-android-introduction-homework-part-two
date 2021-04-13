@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
@@ -14,18 +15,21 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import GeekBrians.Slava_5655380.Note.Note;
-import GeekBrians.Slava_5655380.Note.NotesDAO.NotesReadableSource;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesSource;
 import GeekBrians.Slava_5655380.R;
 
 public class Adapter
         extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
-    private NotesReadableSource dataSource;
+    private final NotesSource dataSource;
+    private final Fragment fragment;
     private OnItemClickListener metadataPlaceholderClickListener;
     private OnItemClickListener editButtonClickListener;
+    private int contextMenuAdapterPosition;
 
-    public Adapter(NotesReadableSource dataSource) {
+    public Adapter(NotesSource dataSource, Fragment fragment) {
         this.dataSource = dataSource;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -54,6 +58,10 @@ public class Adapter
         this.editButtonClickListener = editButtonClickListener;
     }
 
+    public int getContextMenuAdapterPosition() {
+        return contextMenuAdapterPosition;
+    }
+
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
@@ -78,6 +86,17 @@ public class Adapter
             metadataPlaceholder = itemView.findViewById(R.id.note_metadata_placeholder);
             editButton = itemView.findViewById(R.id.button_edit);
 
+            fragment.registerForContextMenu(itemView);
+
+            // Обработчик нажатий на картинке
+            metadataPlaceholder.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    contextMenuAdapterPosition = getAdapterPosition();
+                    itemView.showContextMenu(0, 0);
+                    return true;
+                }
+            });
             metadataPlaceholder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

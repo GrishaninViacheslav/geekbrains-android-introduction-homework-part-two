@@ -3,9 +3,13 @@ package GeekBrians.Slava_5655380.UI.Fragments;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,13 +19,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import GeekBrians.Slava_5655380.Note.FileManagement.AndroidAppSpecificFilesManager;
 import GeekBrians.Slava_5655380.Note.Note;
-import GeekBrians.Slava_5655380.Note.NotesDAO.NotesAsJSONFiles;
 import GeekBrians.Slava_5655380.Note.NotesDAO.NotesAsRoomDB.NotesAsRoomDatabase;
-import GeekBrians.Slava_5655380.Note.NotesDAO.NotesReadableSource;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesSource;
 import GeekBrians.Slava_5655380.R;
-import GeekBrians.Slava_5655380.UI.Activities.MainActivity;
 import GeekBrians.Slava_5655380.UI.Activities.NoteContentDisplayActivity;
 import GeekBrians.Slava_5655380.UI.Activities.NoteEditorActivity;
 import GeekBrians.Slava_5655380.UI.Fragments.NotesMetadataBrowserRecyclerView.Adapter;
@@ -29,7 +30,7 @@ import GeekBrians.Slava_5655380.UI.Fragments.NotesMetadataBrowserRecyclerView.Ad
 public class NotesMetadataDisplayFragment extends NoteFragment {
     private boolean isLandscape;
     private Note selectedNote;
-    private NotesReadableSource notes;
+    private NotesSource notes;
 
     private void showNoteEditor() {
         Intent intent = new Intent();
@@ -68,7 +69,7 @@ public class NotesMetadataDisplayFragment extends NoteFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        Adapter adapter = new Adapter(notes);
+        Adapter adapter = new Adapter(notes, this);
         recyclerView.setAdapter(adapter);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL);
@@ -140,5 +141,25 @@ public class NotesMetadataDisplayFragment extends NoteFragment {
         super.onViewCreated(view, savedInstanceState);
         isLandscape = getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = requireActivity().getMenuInflater();
+        inflater.inflate(R.menu.note_metadata_browser_context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit:
+                Toast.makeText(requireActivity().getApplicationContext(), "action_edit", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_delete:
+                Toast.makeText(requireActivity().getApplicationContext(), "action_delete", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+        return super.onContextItemSelected(item);
     }
 }

@@ -4,20 +4,20 @@ import android.content.Context;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.widget.Toast;
-import GeekBrians.Slava_5655380.Note.NotesDAO.NotesWritableSource;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesSource;
 
 public class NoteEditorPresenter {
 
     private Context context;
     private Note note;
-    private NotesWritableSource notesWritableSource;
+    private NotesSource notesSource;
     private InputConnection inputConnection;
 
 
-    public NoteEditorPresenter(Context context, Note note, NotesWritableSource notesWritableSource, InputConnection inputConnection) {
+    public NoteEditorPresenter(Context context, Note note, NotesSource notesSource, InputConnection inputConnection) {
         this.context = context;
         this.note = note;
-        this.notesWritableSource = notesWritableSource;
+        this.notesSource = notesSource;
         this.inputConnection = inputConnection;
     }
 
@@ -30,8 +30,8 @@ public class NoteEditorPresenter {
     }
 
     public void actionSave(){
-        notesWritableSource.addNote(note);
-        notesWritableSource.commit();
+        notesSource.addNote(note);
+        notesSource.commit();
         Toast.makeText(context, "Note saved: " + note.getContent(), Toast.LENGTH_SHORT).show();
     }
 

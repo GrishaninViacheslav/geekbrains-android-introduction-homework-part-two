@@ -9,10 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 
 import GeekBrians.Slava_5655380.Note.Note;
-import GeekBrians.Slava_5655380.Note.NotesDAO.NotesReadableSource;
-import GeekBrians.Slava_5655380.Note.NotesDAO.NotesWritableSource;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesSource;
 
-public class NotesAsRoomDatabase implements NotesReadableSource, NotesWritableSource {
+public class NotesAsRoomDatabase implements NotesSource {
     private final static NotesAsRoomDatabase SINGLETON_INSTANCE = new NotesAsRoomDatabase();
 
     private Context appContext;
@@ -91,6 +90,11 @@ public class NotesAsRoomDatabase implements NotesReadableSource, NotesWritableSo
     @Override
     public void addNote(Note note) {
         notesToCommit.add(new NoteRoomEntity(note));
+    }
+
+    @Override
+    public void deleteNote(Note note) {
+
     }
 
     @Override
