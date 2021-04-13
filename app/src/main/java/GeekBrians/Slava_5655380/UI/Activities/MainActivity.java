@@ -27,20 +27,6 @@ import GeekBrians.Slava_5655380.Note.NotesDAO.NotesWritableSource;
 import GeekBrians.Slava_5655380.R;
 
 public class MainActivity extends AppCompatActivity {
-    // Может ли Android убить экземпляр этой активити в то время как открыты активити наследуемые от MainActivity, которые запрашивают notesReadableSource и notesWritableSource из экземпляра MainActivity?
-    // Если да то как сделать так чтобы  notesReadableSource и notesWritableSource открывались только один раз и были общими для всех компонентов приложения
-    // TODO: если приложение начнёт падать в случайные моменты то проверить этот вопрос
-    private NotesReadableSource notesReadableSource;
-    private NotesWritableSource notesWritableSource;
-
-    public NotesReadableSource getNotesReadableSource() {
-        return notesReadableSource;
-    }
-
-    public NotesWritableSource getNotesWritableSource() {
-        return notesWritableSource;
-    }
-
     private Toolbar initToolbar() {
         Toolbar toolbar = findViewById(R.id.note_browser_toolbar);
         setSupportActionBar(toolbar);
@@ -50,42 +36,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MainActivity.mainActivityReference = this;
-
-        notesReadableSource = new NotesAsRoomDatabase(this);
-        notesWritableSource = (NotesWritableSource) notesReadableSource;
-
-        // -----------------------------------------------------------------------------
-        // этот кусок нужен только для отладки и будет удалён
-        if(notesReadableSource.size() == 0){
-            try {
-                notesWritableSource.addNote(
-                        new Note(
-                                new Note.MetaData("Вторая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum", "#dolor", "#sit"}, "Описание второй заметки"),
-                                "Содержимое второй заметки"));
-                notesWritableSource.addNote(
-                        new Note(
-                                new Note.MetaData("Третья заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание третьей заметки"),
-                                "Содержимое третьей заметки"));
-                notesWritableSource.addNote(
-                        new Note(
-                                new Note.MetaData("Четвёртая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum", "#amet"}, "Описание четвёртой заметки"),
-                                "Содержимое четвёертой заметки"));
-                notesWritableSource.addNote(
-                        new Note(
-                                new Note.MetaData("Пятая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание пятой заметки"),
-                                "Содержимое пятой заметки"));
-                notesWritableSource.addNote(
-                        new Note(
-                                new Note.MetaData("Шестая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание шестой заметки"),
-                                "Содержимое шестой заметки"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            notesWritableSource.commit();
-        }
-        // -----------------------------------------------------------------------------
-
         setContentView(R.layout.activity_main);
         Toolbar toolbar = initToolbar();
         initDrawer(toolbar);
@@ -125,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
-
-    public static MainActivity mainActivityReference;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

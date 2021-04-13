@@ -4,6 +4,8 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 
 import GeekBrians.Slava_5655380.Note.Note;
@@ -11,16 +13,70 @@ import GeekBrians.Slava_5655380.Note.NotesDAO.NotesReadableSource;
 import GeekBrians.Slava_5655380.Note.NotesDAO.NotesWritableSource;
 
 public class NotesAsRoomDatabase implements NotesReadableSource, NotesWritableSource {
+    private final static NotesAsRoomDatabase SINGLETON_INSTANCE = new NotesAsRoomDatabase();
+
+    private Context appContext;
     private NotesDatabase db;
     private NotesDao notesDao;
     private LinkedList<NoteRoomEntity> notesToCommit;
 
-    public NotesAsRoomDatabase(Context context) {
-        db = Room.databaseBuilder(context,
-                NotesDatabase.class, "notes").allowMainThreadQueries().build();
-        notesDao = db.notesDao();
-        notesToCommit = new LinkedList<>();
+    private NotesAsRoomDatabase() {
+        appContext = null;
     }
+
+    private static class SingletonInitializedButDifferentAppcontextPassed extends RuntimeException{
+        public SingletonInitializedButDifferentAppcontextPassed(Context context) {
+            super("This singleton was initialized by different application context: Passed context: " + context + ", but application context this singleton is using: " + SINGLETON_INSTANCE.appContext);
+        }
+    }
+
+    public static NotesAsRoomDatabase getInstance(Context appContext) {
+        if (SINGLETON_INSTANCE.appContext == null) {
+            SINGLETON_INSTANCE.appContext = appContext;
+            SINGLETON_INSTANCE.db = Room.databaseBuilder(SINGLETON_INSTANCE.appContext,
+                    NotesDatabase.class, "notes").allowMainThreadQueries().build();
+            SINGLETON_INSTANCE.notesDao = SINGLETON_INSTANCE.db.notesDao();
+            SINGLETON_INSTANCE.notesToCommit = new LinkedList<>();
+        } else if (!SINGLETON_INSTANCE.appContext.equals(appContext)){
+            throw new SingletonInitializedButDifferentAppcontextPassed(appContext);
+        }
+
+        // TODO: УДАЛИТЬ ЭТОТ КУСОК
+        // TODO: ######################################################################################################################################
+        // этот кусок нужен только для отладки и будет удалён
+        if(SINGLETON_INSTANCE.notesDao.getDataCount() == 0){
+            try {
+                SINGLETON_INSTANCE.addNote(
+                        new Note(
+                                new Note.MetaData("Вторая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum", "#dolor", "#sit"}, "Описание второй заметки"),
+                                "Содержимое второй заметки"));
+                SINGLETON_INSTANCE.addNote(
+                        new Note(
+                                new Note.MetaData("Третья заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание третьей заметки"),
+                                "Содержимое третьей заметки"));
+                SINGLETON_INSTANCE.addNote(
+                        new Note(
+                                new Note.MetaData("Четвёртая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum", "#amet"}, "Описание четвёртой заметки"),
+                                "Содержимое четвёертой заметки"));
+                SINGLETON_INSTANCE.addNote(
+                        new Note(
+                                new Note.MetaData("Пятая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание пятой заметки"),
+                                "Содержимое пятой заметки"));
+                SINGLETON_INSTANCE.addNote(
+                        new Note(
+                                new Note.MetaData("Шестая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание шестой заметки"),
+                                "Содержимое шестой заметки"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            SINGLETON_INSTANCE.commit();
+        }
+        // TODO: ######################################################################################################################################
+
+
+        return SINGLETON_INSTANCE;
+    }
+
 
     @Override
     public Note getNoteData(int position) {
@@ -41,13 +97,12 @@ public class NotesAsRoomDatabase implements NotesReadableSource, NotesWritableSo
     public void commit() {
         // Как по нормальному сделать обновление строки заметки?
         LinkedList<NoteRoomEntity> notesToInsert = new LinkedList<>();
-        for(NoteRoomEntity noteRoomEntity : notesToCommit){
+        for (NoteRoomEntity noteRoomEntity : notesToCommit) {
             NoteRoomEntity originEntity = notesDao.findByName(noteRoomEntity.name);
-            if(originEntity != null){
+            if (originEntity != null) {
                 NoteRoomEntity updatedEntity = new NoteRoomEntity(originEntity.nid, noteRoomEntity.name, noteRoomEntity.creationDate, noteRoomEntity.modificationDate, noteRoomEntity.tags, noteRoomEntity.description, noteRoomEntity.content);
                 notesDao.update(updatedEntity);
-            }
-            else{
+            } else {
                 notesToInsert.add(noteRoomEntity);
             }
         }

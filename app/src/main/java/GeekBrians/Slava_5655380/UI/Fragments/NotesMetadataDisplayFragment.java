@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import GeekBrians.Slava_5655380.Note.FileManagement.AndroidAppSpecificFilesManager;
 import GeekBrians.Slava_5655380.Note.Note;
 import GeekBrians.Slava_5655380.Note.NotesDAO.NotesAsJSONFiles;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesAsRoomDB.NotesAsRoomDatabase;
 import GeekBrians.Slava_5655380.Note.NotesDAO.NotesReadableSource;
 import GeekBrians.Slava_5655380.R;
 import GeekBrians.Slava_5655380.UI.Activities.MainActivity;
@@ -127,7 +128,7 @@ public class NotesMetadataDisplayFragment extends NoteFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        notes = ((MainActivity)requireActivity()).getNotesReadableSource();
+        notes = NotesAsRoomDatabase.getInstance(requireActivity().getApplicationContext());
         View view = inflater.inflate(R.layout.fragment_notes_metadata_browser, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_lines);
         initBrowserRecycleView(recyclerView);
