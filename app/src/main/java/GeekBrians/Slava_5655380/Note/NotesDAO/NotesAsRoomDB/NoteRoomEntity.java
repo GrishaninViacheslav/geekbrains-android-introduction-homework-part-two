@@ -50,7 +50,10 @@ public class NoteRoomEntity {
 
     public NoteRoomEntity(Note note, NotesDao notesDao) {
         Note.MetaData metaData = note.getMetadata();
-        this.nid = getNid(notesDao, metaData.name);
+        Integer originNid = getNid(notesDao, metaData.name);
+        if(originNid != null){
+            this.nid = getNid(notesDao, metaData.name);
+        }
         this.name = metaData.name;
         this.creationDate = metaData.creationDate;
         this.modificationDate = metaData.modificationDate;
