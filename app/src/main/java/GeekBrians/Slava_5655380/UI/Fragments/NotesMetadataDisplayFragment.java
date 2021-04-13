@@ -31,6 +31,7 @@ public class NotesMetadataDisplayFragment extends NoteFragment {
     private boolean isLandscape;
     private Note selectedNote;
     private NotesSource notes;
+    private Adapter adapter;
 
     private void showNoteEditor() {
         Intent intent = new Intent();
@@ -69,7 +70,7 @@ public class NotesMetadataDisplayFragment extends NoteFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        Adapter adapter = new Adapter(notes, this);
+        adapter = new Adapter(notes, this);
         recyclerView.setAdapter(adapter);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL);
@@ -152,9 +153,11 @@ public class NotesMetadataDisplayFragment extends NoteFragment {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int position = adapter.getContextMenuAdapterPosition();
         switch (item.getItemId()) {
             case R.id.action_edit:
-                Toast.makeText(requireActivity().getApplicationContext(), "action_edit", Toast.LENGTH_SHORT).show();
+                selectedNote = notes.getNoteData(position);
+                showNoteEditor();
                 return true;
             case R.id.action_delete:
                 Toast.makeText(requireActivity().getApplicationContext(), "action_delete", Toast.LENGTH_SHORT).show();

@@ -19,6 +19,12 @@ public interface NotesDao {
     @Query("SELECT * FROM NoteRoomEntity WHERE name LIKE :name LIMIT 1")
     NoteRoomEntity findByName(String name);
 
+    @Query("SELECT EXISTS(SELECT * FROM NoteRoomEntity WHERE nid = :nid)")
+    boolean isRowIsExist(int nid);
+
+    @Query("SELECT COUNT(*) FROM NoteRoomEntity")
+    int getDataCount();
+
     @Insert
     void insertAll(NoteRoomEntity... userRoomEntities);
 
@@ -27,7 +33,4 @@ public interface NotesDao {
 
     @Delete
     void delete(NoteRoomEntity noteRoomEntity);
-
-    @Query("SELECT COUNT(*) FROM NoteRoomEntity")
-    int getDataCount();
 }

@@ -12,6 +12,11 @@ import GeekBrians.Slava_5655380.Note.Note;
 
 @Entity
 public class NoteRoomEntity {
+    private int getNid(NotesDao notesDao, String name) {
+        NoteRoomEntity originEntity = notesDao.findByName(name);
+        return (originEntity != null) ? originEntity.nid : null;
+    }
+
     @PrimaryKey(autoGenerate = true)
     public int nid;
 
@@ -43,8 +48,9 @@ public class NoteRoomEntity {
         this.content = content;
     }
 
-    public NoteRoomEntity(Note note){
+    public NoteRoomEntity(Note note, NotesDao notesDao) {
         Note.MetaData metaData = note.getMetadata();
+        this.nid = getNid(notesDao, metaData.name);
         this.name = metaData.name;
         this.creationDate = metaData.creationDate;
         this.modificationDate = metaData.modificationDate;
@@ -53,7 +59,7 @@ public class NoteRoomEntity {
         this.content = note.getContent();
     }
 
-    public Note convertToNote(){
+    public Note convertToNote() {
         return new Note(new Note.MetaData(name, creationDate, modificationDate, tags, description), content);
     }
 }

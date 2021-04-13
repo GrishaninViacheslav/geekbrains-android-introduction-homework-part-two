@@ -89,7 +89,7 @@ public class NotesAsRoomDatabase implements NotesSource {
 
     @Override
     public void addNote(Note note) {
-        notesToCommit.add(new NoteRoomEntity(note));
+        notesToCommit.add(new NoteRoomEntity(note, notesDao));
     }
 
     @Override
@@ -102,10 +102,8 @@ public class NotesAsRoomDatabase implements NotesSource {
         // Как по нормальному сделать обновление строки заметки?
         LinkedList<NoteRoomEntity> notesToInsert = new LinkedList<>();
         for (NoteRoomEntity noteRoomEntity : notesToCommit) {
-            NoteRoomEntity originEntity = notesDao.findByName(noteRoomEntity.name);
-            if (originEntity != null) {
-                NoteRoomEntity updatedEntity = new NoteRoomEntity(originEntity.nid, noteRoomEntity.name, noteRoomEntity.creationDate, noteRoomEntity.modificationDate, noteRoomEntity.tags, noteRoomEntity.description, noteRoomEntity.content);
-                notesDao.update(updatedEntity);
+            if (notesDao.isRowIsExist(noteRoomEntity.nid)) {
+                notesDao.update(noteRoomEntity);
             } else {
                 notesToInsert.add(noteRoomEntity);
             }
