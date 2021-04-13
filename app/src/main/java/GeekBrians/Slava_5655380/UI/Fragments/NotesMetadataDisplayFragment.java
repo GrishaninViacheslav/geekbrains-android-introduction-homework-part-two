@@ -160,7 +160,8 @@ public class NotesMetadataDisplayFragment extends NoteFragment {
                 showNoteEditor();
                 return true;
             case R.id.action_delete:
-                Toast.makeText(requireActivity().getApplicationContext(), "action_delete", Toast.LENGTH_SHORT).show();
+                notes.deleteNote(notes.getNoteData(position));
+                adapter.notifyItemRemoved(position);
                 return true;
         }
         return super.onContextItemSelected(item);

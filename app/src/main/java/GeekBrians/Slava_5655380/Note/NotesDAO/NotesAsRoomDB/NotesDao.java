@@ -16,6 +16,9 @@ public interface NotesDao {
     @Query("SELECT * FROM NoteRoomEntity WHERE nid IN (:userIds)")
     List<NoteRoomEntity> loadAllByIds(int[] userIds);
 
+    @Query("SELECT * FROM NoteRoomEntity LIMIT 1 OFFSET :row")
+    List<NoteRoomEntity> getRow(int row);
+
     @Query("SELECT * FROM NoteRoomEntity WHERE name LIKE :name LIMIT 1")
     NoteRoomEntity findByName(String name);
 

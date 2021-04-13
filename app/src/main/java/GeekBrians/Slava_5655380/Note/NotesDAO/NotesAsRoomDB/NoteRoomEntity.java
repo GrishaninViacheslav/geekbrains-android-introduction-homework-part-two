@@ -12,7 +12,7 @@ import GeekBrians.Slava_5655380.Note.Note;
 
 @Entity
 public class NoteRoomEntity {
-    private int getNid(NotesDao notesDao, String name) {
+    private Integer getNid(NotesDao notesDao, String name) {
         NoteRoomEntity originEntity = notesDao.findByName(name);
         return (originEntity != null) ? originEntity.nid : null;
     }

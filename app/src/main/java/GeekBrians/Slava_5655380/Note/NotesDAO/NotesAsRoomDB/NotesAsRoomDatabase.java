@@ -1,6 +1,7 @@
 package GeekBrians.Slava_5655380.Note.NotesDAO.NotesAsRoomDB;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.room.Room;
 
@@ -79,7 +80,8 @@ public class NotesAsRoomDatabase implements NotesSource {
 
     @Override
     public Note getNoteData(int position) {
-        return notesDao.loadAllByIds(new int[]{position + 1}).get(0).convertToNote();
+        Log.d("[PING]", "getNoteData getDataCount(): " + notesDao.getDataCount());
+        return notesDao.getRow(position).get(0).convertToNote();
     }
 
     @Override
@@ -94,7 +96,7 @@ public class NotesAsRoomDatabase implements NotesSource {
 
     @Override
     public void deleteNote(Note note) {
-
+        notesDao.delete(new NoteRoomEntity(note, notesDao));
     }
 
     @Override
