@@ -2,4 +2,6 @@
     <string name="app_name">geekbrains-android-introduction-homework-part-two</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="edit">Редактировать</string>
+    <string name="delete">Удалить</string>
 </resources>

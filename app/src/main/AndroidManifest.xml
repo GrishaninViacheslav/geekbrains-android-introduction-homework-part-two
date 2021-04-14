@@ -18,6 +18,8 @@
         </activity>
         <activity android:name=".UI.Activities.NoteEditorActivity">
         </activity>
+        <activity android:name=".UI.Activities.NoteContentDisplayActivity">
+        </activity>
     </application>
 
 </manifest>
