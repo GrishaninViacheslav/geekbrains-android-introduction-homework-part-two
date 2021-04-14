@@ -100,7 +100,7 @@ public class NotesAsRoomDatabase implements NotesSource {
         // Как по нормальному сделать обновление строки заметки?
         LinkedList<NoteRoomEntity> notesToInsert = new LinkedList<>();
         for (NoteRoomEntity noteRoomEntity : notesToCommit) {
-            if (notesDao.isRowIsExist(noteRoomEntity.nid)) {
+            if (notesDao.isRowIsExist(noteRoomEntity.uid)) {
                 notesDao.update(noteRoomEntity);
             } else {
                 notesToInsert.add(noteRoomEntity);

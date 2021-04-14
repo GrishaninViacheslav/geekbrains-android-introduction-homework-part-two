@@ -10,20 +10,11 @@ import java.util.List;
 
 @Dao
 public interface NotesDao {
-    @Query("SELECT * FROM NoteRoomEntity")
-    List<NoteRoomEntity> getAll();
-
-    @Query("SELECT * FROM NoteRoomEntity WHERE nid IN (:userIds)")
-    List<NoteRoomEntity> loadAllByIds(int[] userIds);
-
     @Query("SELECT * FROM NoteRoomEntity LIMIT 1 OFFSET :row")
     List<NoteRoomEntity> getRow(int row);
 
-    @Query("SELECT * FROM NoteRoomEntity WHERE uid LIKE :uid LIMIT 1")
-    NoteRoomEntity findByUID(long uid);
-
-    @Query("SELECT EXISTS(SELECT * FROM NoteRoomEntity WHERE nid = :nid)")
-    boolean isRowIsExist(int nid);
+    @Query("SELECT EXISTS(SELECT * FROM NoteRoomEntity WHERE uid = :uid)")
+    boolean isRowIsExist(long uid);
 
     @Query("SELECT COUNT(*) FROM NoteRoomEntity")
     int getDataCount();
