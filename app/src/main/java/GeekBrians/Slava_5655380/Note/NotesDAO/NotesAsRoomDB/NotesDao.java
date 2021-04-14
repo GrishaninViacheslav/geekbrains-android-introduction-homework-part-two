@@ -19,8 +19,8 @@ public interface NotesDao {
     @Query("SELECT * FROM NoteRoomEntity LIMIT 1 OFFSET :row")
     List<NoteRoomEntity> getRow(int row);
 
-    @Query("SELECT * FROM NoteRoomEntity WHERE name LIKE :name LIMIT 1")
-    NoteRoomEntity findByName(String name);
+    @Query("SELECT * FROM NoteRoomEntity WHERE uid LIKE :uid LIMIT 1")
+    NoteRoomEntity findByUID(long uid);
 
     @Query("SELECT EXISTS(SELECT * FROM NoteRoomEntity WHERE nid = :nid)")
     boolean isRowIsExist(int nid);

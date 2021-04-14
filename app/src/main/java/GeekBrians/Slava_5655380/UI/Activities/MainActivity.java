@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 
 import GeekBrians.Slava_5655380.Note.Note;
-import GeekBrians.Slava_5655380.Note.NotesDAO.NotesAsRoomDB.NotesAsRoomDatabase;
 import GeekBrians.Slava_5655380.R;
 import GeekBrians.Slava_5655380.UI.Fragments.NoteFragment;
 
@@ -75,13 +74,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createNewNote() {
-        Note newNote = new Note();
-        NotesAsRoomDatabase.getInstance(getApplicationContext()).addNote(newNote);
-        NotesAsRoomDatabase.getInstance(getApplicationContext()).commit();
-
         Intent intent = new Intent();
         intent.setClass(this, NoteEditorActivity.class);
-        intent.putExtra(ARG_SELECTED_NOTE, newNote);
+        intent.putExtra(ARG_SELECTED_NOTE, new Note());
         startActivityForResult(intent, NoteFragment.REQUEST_CODE_EDITOR_ACTIVITY);
     }
 

@@ -11,6 +11,10 @@ public class Note implements Parcelable {
     private MetaData metadata;
     private Content content;
 
+    private static long generateUID(){
+        return System.currentTimeMillis();
+    }
+
     private static class Content implements Parcelable {
         private String content;
 
@@ -46,9 +50,12 @@ public class Note implements Parcelable {
     }
 
     protected Note(Parcel in) {
+        UNIQUE_ID = in.readLong();
         metadata = in.readParcelable(MetaData.class.getClassLoader());
         content = in.readParcelable(Content.class.getClassLoader());
     }
+
+    public final long UNIQUE_ID;
 
     public static class MetaData implements Parcelable {
         public String name;
@@ -123,11 +130,13 @@ public class Note implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(UNIQUE_ID);
         dest.writeParcelable(metadata, flags);
         dest.writeParcelable(content, flags);
     }
 
     public Note() {
+        UNIQUE_ID = generateUID();
         try {
             this.metadata = new MetaData(
                     "Безымянная заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"),
@@ -140,7 +149,13 @@ public class Note implements Parcelable {
         this.content = new Content("");
     }
 
+
     public Note(MetaData meta, String content) {
+        this(generateUID(), meta, content);
+    }
+
+    public Note(long uid, MetaData meta, String content) {
+        UNIQUE_ID = uid;
         this.metadata = meta;
         this.content = new Content(content);
     }

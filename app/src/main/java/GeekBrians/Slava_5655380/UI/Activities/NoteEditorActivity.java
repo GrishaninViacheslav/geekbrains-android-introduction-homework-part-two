@@ -18,10 +18,8 @@ import androidx.appcompat.widget.Toolbar;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
-import GeekBrians.Slava_5655380.Note.FileManagement.AndroidAppSpecificFilesManager;
 import GeekBrians.Slava_5655380.Note.Note;
 import GeekBrians.Slava_5655380.Note.NoteEditorPresenter;
-import GeekBrians.Slava_5655380.Note.NotesDAO.NotesAsJSONFiles;
 import GeekBrians.Slava_5655380.Note.NotesDAO.NotesAsRoomDB.NotesAsRoomDatabase;
 import GeekBrians.Slava_5655380.R;
 import GeekBrians.Slava_5655380.UI.Fragments.NoteFragment;

@@ -25,10 +25,6 @@ public class NoteEditorPresenter {
         return note;
     }
 
-    public void setNote(Note note) {
-        this.note = note;
-    }
-
     public void actionSave(){
         notesSource.addNote(note);
         notesSource.commit();

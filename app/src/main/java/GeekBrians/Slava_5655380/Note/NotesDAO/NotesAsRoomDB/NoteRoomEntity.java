@@ -12,13 +12,18 @@ import GeekBrians.Slava_5655380.Note.Note;
 
 @Entity
 public class NoteRoomEntity {
-    private Integer getNid(NotesDao notesDao, String name) {
-        NoteRoomEntity originEntity = notesDao.findByName(name);
+    private Integer getNid(NotesDao notesDao, long uid) {
+        NoteRoomEntity originEntity = notesDao.findByUID(uid);
         return (originEntity != null) ? originEntity.nid : null;
     }
 
+    // TODO: REFACTOR: заменить nid на uid?
+
     @PrimaryKey(autoGenerate = true)
     public int nid;
+
+    @ColumnInfo(name = "uid")
+    public long uid;
 
     @ColumnInfo(name = "name")
     public String name;
@@ -38,8 +43,9 @@ public class NoteRoomEntity {
     @ColumnInfo(name = "content")
     public String content;
 
-    public NoteRoomEntity(int nid, String name, Date creationDate, Date modificationDate, String[] tags, String description, String content) {
+    public NoteRoomEntity(int nid, long uid, String name, Date creationDate, Date modificationDate, String[] tags, String description, String content) {
         this.nid = nid;
+        this.uid = uid;
         this.name = name;
         this.creationDate = creationDate;
         this.modificationDate = modificationDate;
@@ -49,10 +55,11 @@ public class NoteRoomEntity {
     }
 
     public NoteRoomEntity(Note note, NotesDao notesDao) {
+        this.uid = note.UNIQUE_ID;
         Note.MetaData metaData = note.getMetadata();
-        Integer originNid = getNid(notesDao, metaData.name);
+        Integer originNid = getNid(notesDao, note.UNIQUE_ID);
         if(originNid != null){
-            this.nid = getNid(notesDao, metaData.name);
+            this.nid = originNid;
         }
         this.name = metaData.name;
         this.creationDate = metaData.creationDate;
@@ -63,6 +70,6 @@ public class NoteRoomEntity {
     }
 
     public Note convertToNote() {
-        return new Note(new Note.MetaData(name, creationDate, modificationDate, tags, description), content);
+        return new Note(uid, new Note.MetaData(name, creationDate, modificationDate, tags, description), content);
     }
 }

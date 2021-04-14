@@ -1,10 +1,7 @@
 package GeekBrians.Slava_5655380.Note.NotesDAO.NotesAsRoomDB;
 
 import android.content.Context;
-import android.util.Log;
-
 import androidx.room.Room;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
@@ -80,7 +77,6 @@ public class NotesAsRoomDatabase implements NotesSource {
 
     @Override
     public Note getNoteData(int position) {
-        Log.d("[PING]", "getNoteData getDataCount(): " + notesDao.getDataCount());
         return notesDao.getRow(position).get(0).convertToNote();
     }
 
