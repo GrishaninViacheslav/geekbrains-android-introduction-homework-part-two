@@ -1,6 +1,7 @@
 package GeekBrians.Slava_5655380.UI.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -8,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +17,12 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import GeekBrians.Slava_5655380.Note.Note;
+import GeekBrians.Slava_5655380.Note.NotesDAO.NotesAsRoomDB.NotesAsRoomDatabase;
 import GeekBrians.Slava_5655380.R;
+import GeekBrians.Slava_5655380.UI.Fragments.NoteFragment;
+
+import static GeekBrians.Slava_5655380.UI.Fragments.NoteFragment.ARG_SELECTED_NOTE;
 
 public class MainActivity extends AppCompatActivity {
     private Toolbar initToolbar() {
@@ -67,6 +74,17 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    private void createNewNote() {
+        Note newNote = new Note();
+        NotesAsRoomDatabase.getInstance(getApplicationContext()).addNote(newNote);
+        NotesAsRoomDatabase.getInstance(getApplicationContext()).commit();
+
+        Intent intent = new Intent();
+        intent.setClass(this, NoteEditorActivity.class);
+        intent.putExtra(ARG_SELECTED_NOTE, newNote);
+        startActivityForResult(intent, NoteFragment.REQUEST_CODE_EDITOR_ACTIVITY);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -76,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "action_sort", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_create:
-                Toast.makeText(MainActivity.this, "action_create", Toast.LENGTH_SHORT).show();
+                createNewNote();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -100,5 +118,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case NoteFragment.REQUEST_CODE_EDITOR_ACTIVITY:
+                recreate();
+                break;
+        }
     }
 }
