@@ -91,6 +91,18 @@ public class NotesAsRoomDatabase implements NotesSource {
     }
 
     @Override
+    public void add(int position, Note note) {
+        notesToCommit.add(position, new NoteRoomEntity(note, notesDao));
+    }
+
+    @Override
+    public Note removeAt(int position) {
+        Note note = notesDao.getRow(position).get(0).convertToNote();
+        deleteNote(note);
+        return note;
+    }
+
+    @Override
     public void deleteNote(Note note) {
         notesDao.delete(new NoteRoomEntity(note, notesDao));
     }
