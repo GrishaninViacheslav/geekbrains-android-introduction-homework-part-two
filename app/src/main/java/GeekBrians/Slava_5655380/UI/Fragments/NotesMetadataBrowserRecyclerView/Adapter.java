@@ -2,7 +2,6 @@ package GeekBrians.Slava_5655380.UI.Fragments.NotesMetadataBrowserRecyclerView;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,9 +35,18 @@ public class Adapter
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        Log.d("[MYLOG]", "Adapter.onItemMove");
         Note note = dataSource.removeAt(fromPosition);
-        dataSource.add((toPosition > fromPosition) ? toPosition - 1 : toPosition, note);
+        int position = toPosition;
+        double prevPriority = 0;
+        if(position > 0){
+            prevPriority = dataSource.getNoteData(position - 1).getMetadata().priority;
+        }
+        double currPriority = prevPriority + 2;
+        if (position < dataSource.size()) {
+            currPriority = dataSource.getNoteData(position).getMetadata().priority;
+        }
+        note.getMetadata().priority = prevPriority + (currPriority - prevPriority) / 2.d;
+        dataSource.addNote(note);
         notifyItemMoved(fromPosition, toPosition);
     }
 
@@ -160,7 +168,7 @@ public class Adapter
                 }
             });
 
-            title.setText(note.getMetadata().name);
+            title.setText(note.getMetadata().name + " - " + note.getMetadata().priority);
             creationData.setText(new SimpleDateFormat("dd.MM.yyyy").format(note.getMetadata().creationDate));
             modificationDate.setText(new SimpleDateFormat("dd.MM.yyyy").format(note.getMetadata().modificationDate));
             notesTags.setText(Arrays.toString(note.getMetadata().tags));
