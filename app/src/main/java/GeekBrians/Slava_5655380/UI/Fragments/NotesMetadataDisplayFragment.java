@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,12 +26,14 @@ import GeekBrians.Slava_5655380.R;
 import GeekBrians.Slava_5655380.UI.Activities.NoteContentDisplayActivity;
 import GeekBrians.Slava_5655380.UI.Activities.NoteEditorActivity;
 import GeekBrians.Slava_5655380.UI.Fragments.NotesMetadataBrowserRecyclerView.Adapter;
+import GeekBrians.Slava_5655380.UI.Fragments.NotesMetadataBrowserRecyclerView.ItemTouchHelperCallback;
 
 public class NotesMetadataDisplayFragment extends NoteFragment {
     private boolean isLandscape;
     private Note selectedNote;
     private NotesSource notes;
     private Adapter adapter;
+    private ItemTouchHelper itemTouchHelper;
 
     private void showNoteEditor() {
         Intent intent = new Intent();
@@ -69,7 +72,15 @@ public class NotesMetadataDisplayFragment extends NoteFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new Adapter(notes, this);
+        adapter = new Adapter(notes, this, new Adapter.OnStartDragListener() {
+            @Override
+            public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+                itemTouchHelper.startDrag(viewHolder);
+            }
+        });
+        itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback(adapter));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
         recyclerView.setAdapter(adapter);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL);

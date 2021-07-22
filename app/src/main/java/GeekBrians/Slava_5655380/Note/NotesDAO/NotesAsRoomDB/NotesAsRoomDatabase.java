@@ -45,35 +45,33 @@ public class NotesAsRoomDatabase implements NotesSource {
             try {
                 SINGLETON_INSTANCE.addNote(
                         new Note(
-                                new Note.MetaData("Вторая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum", "#dolor", "#sit"}, "Описание второй заметки"),
+                                new Note.MetaData("Вторая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum", "#dolor", "#sit"}, "Описание второй заметки", 1d),
                                 "Содержимое второй заметки"));
                 SINGLETON_INSTANCE.addNote(
                         new Note(
-                                new Note.MetaData("Третья заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание третьей заметки"),
+                                new Note.MetaData("Третья заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание третьей заметки", 2d),
                                 "Содержимое третьей заметки"));
                 SINGLETON_INSTANCE.addNote(
                         new Note(
-                                new Note.MetaData("Четвёртая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum", "#amet"}, "Описание четвёртой заметки"),
+                                new Note.MetaData("Четвёртая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum", "#amet"}, "Описание четвёртой заметки", 3d),
                                 "Содержимое четвёертой заметки"));
                 SINGLETON_INSTANCE.addNote(
                         new Note(
-                                new Note.MetaData("Пятая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание пятой заметки"),
+                                new Note.MetaData("Пятая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание пятой заметки", 4d),
                                 "Содержимое пятой заметки"));
                 SINGLETON_INSTANCE.addNote(
                         new Note(
-                                new Note.MetaData("Шестая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание шестой заметки"),
+                                new Note.MetaData("Шестая заметка", new SimpleDateFormat("dd-MM-yyyy").parse("24-03-2021"), new SimpleDateFormat("dd-MM-yyyy").parse("25-03-2021"), new String[]{"#lorem", "#ipsum"}, "Описание шестой заметки", 5d),
                                 "Содержимое шестой заметки"));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            SINGLETON_INSTANCE.commit();
         }
         // TODO: ######################################################################################################################################
 
 
         return SINGLETON_INSTANCE;
     }
-
 
     @Override
     public Note getNoteData(int position) {
@@ -88,6 +86,19 @@ public class NotesAsRoomDatabase implements NotesSource {
     @Override
     public void addNote(Note note) {
         notesToCommit.add(new NoteRoomEntity(note, notesDao));
+        commit();
+    }
+
+    @Override
+    public void add(int position, Note note) {
+        notesToCommit.add(position, new NoteRoomEntity(note, notesDao));
+    }
+
+    @Override
+    public Note removeAt(int position) {
+        Note note = notesDao.getRow(position).get(0).convertToNote();
+        deleteNote(note);
+        return note;
     }
 
     @Override
@@ -108,5 +119,9 @@ public class NotesAsRoomDatabase implements NotesSource {
         }
         notesDao.insertAll(notesToInsert.toArray(new NoteRoomEntity[notesToInsert.size()]));
         notesToCommit.clear();
+    }
+
+    public double getLowestPriorityValue(){
+        return notesDao.getLowestPriority().get(0).priority;
     }
 }

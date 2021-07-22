@@ -63,13 +63,19 @@ public class Note implements Parcelable {
         public Date modificationDate;
         public String[] tags;
         public String description;
+        public Double priority;
 
-        public MetaData(String name, Date creationDate, Date lastModificationDate, String[] tags, String description) {
+        public MetaData(String name, Date creationDate, Date lastModificationDate, String[] tags, String description, Double priority) {
             this.name = name;
             this.creationDate = creationDate;
             this.modificationDate = lastModificationDate;
             this.tags = tags;
             this.description = description;
+            this.priority = priority;
+        }
+
+        public MetaData(String name, Date creationDate, Date lastModificationDate, String[] tags, String description) {
+            this(name, creationDate, lastModificationDate, tags, description, null);
         }
 
         protected MetaData(Parcel in) {
@@ -82,6 +88,11 @@ public class Note implements Parcelable {
             }
             tags = in.createStringArray();
             description = in.readString();
+            if (in.readByte() == 0) {
+                priority = null;
+            } else {
+                priority = in.readDouble();
+            }
         }
 
         public static final Creator<MetaData> CREATOR = new Creator<MetaData>() {
@@ -108,6 +119,12 @@ public class Note implements Parcelable {
             dest.writeString(new SimpleDateFormat("dd-MM-yyyy").format(modificationDate));
             dest.writeStringArray(tags);
             dest.writeString(description);
+            if (priority == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeDouble(priority);
+            }
         }
     }
 

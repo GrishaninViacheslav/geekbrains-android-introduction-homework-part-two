@@ -10,8 +10,11 @@ import java.util.List;
 
 @Dao
 public interface NotesDao {
-    @Query("SELECT * FROM NoteRoomEntity LIMIT 1 OFFSET :row")
+    @Query("SELECT * FROM NoteRoomEntity ORDER BY priority ASC LIMIT 1 OFFSET :row")
     List<NoteRoomEntity> getRow(int row);
+
+    @Query("SELECT * FROM NoteRoomEntity ORDER BY priority DESC LIMIT 1")
+    List<NoteRoomEntity> getLowestPriority();
 
     @Query("SELECT EXISTS(SELECT * FROM NoteRoomEntity WHERE uid = :uid)")
     boolean isRowIsExist(long uid);
